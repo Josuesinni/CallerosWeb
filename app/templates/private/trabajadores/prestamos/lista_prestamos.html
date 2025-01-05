@@ -1,0 +1,42 @@
+
+<div class="modal fade" id="listaPrestamos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addPrestamoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addPrestamoLabel">Historial de Prestamos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group py-2">
+                    <label for="nombre" class="form-label">Nombre del trabajador:</label>
+                    <select name="nombre_trabajador_historial_prestamo" id="nombre_trabajador_historial_prestamo" class="form-select">
+                        {%for trabajador in trabajadores%}
+                        <option value="{{trabajador[0]}}">{{trabajador[1]}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                
+                <div class="container-fluid">
+                    <div class="table-responsive" style="height: min-content;">
+                        <table class="table" id="tabla-prestamos">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Monto</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Razón</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody_prestamos">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

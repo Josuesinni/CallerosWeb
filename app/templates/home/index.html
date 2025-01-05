@@ -1,0 +1,13 @@
+{% extends 'master/base.html' %}
+{% block title %} {{titulo}} {% endblock %}
+{%block cabecera%}
+<script src="{{url_for('static', filename='js/scripts/home/calendario.js')}}"></script>
+<script src="{{url_for('static', filename='js/scripts/home/eventos.js')}}" defer></script>
+<script src="{{url_for('static', filename='js/scripts/home/trabajos.js')}}" defer></script>
+<script src="{{url_for('static', filename='js/scripts/home/citas.js')}}" defer></script>
+{%endblock%}
+{% block contenido %}
+{% include 'home/calendario/calendario.html'%}
+{% endblock %}
+{%block scripts%}
+{%endblock%}

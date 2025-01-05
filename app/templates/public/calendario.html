@@ -1,0 +1,79 @@
+<div class="container-fluid d-flex shadow" x-data="app()" x-init="[initDate(), getNoOfDays(), getEvents(month,year), addListEvents(day_month)]">
+    <div id="calendario" style="width: 70%;">
+        <div class="container mx-auto px-4 py-2 md:py-24">
+            <div class="bg-white rounded-lg overflow-hidden">
+                <div class="flex items-center justify-between py-2 px-6">
+                    <div>
+                        <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800"></span>
+                        <span x-text="year" class="ml-1 text-lg text-gray-600 font-normal"></span>
+                    </div>
+                    <div class="border rounded-lg px-1" style="padding-top: 2px;">
+                        <button type="button"
+                            class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center"
+                            @click="month--; getNoOfDays(), getEvents(month,year)">
+                            <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <div class="border-r inline-flex h-6"></div>
+                        <button type="button" class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1"
+                            @click="month++; getNoOfDays(), getEvents(month,year)">
+                            <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="-mx-1 -mb-1">
+                    <div class="flex flex-wrap">
+                        <template x-for="(day, index) of DAYS" :key="index">
+                            <div style="width: 14.28%" class="px-2 py-2 border-t px-4 pt-2">
+                                <div x-text="day" class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center"></div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="flex flex-wrap border-t border-l">
+                        <template x-for="blankday in blankdays">
+                            <div style="width: 14.28%; height: 14vh" class="text-center border-r border-b px-4 pt-2"></div>
+                        </template>
+                        <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">
+                            <div style="width: 14.28%; height: 14vh" 
+                                class="px-4 pt-2 border-r border-b relative cursor-pointer hover:bg-gray-200"
+                                :class="{'bg-gray-300': getSelectedDate(date)==true}" 
+                                @click="day_month=date;selectedDate(day_month)">
+
+                                <div @click="showEventModal(date)" x-text="date"
+                                    class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full"
+                                    :class="{'bg-blue-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-blue-200': isToday(date) == false }">
+                                </div>
+
+                                <div style="height: 8vh;" class="overflow-y-auto mt-1">
+                                    <template
+                                        x-for="event in events.filter(e => new Date(e.event_date).toUTCString()===new Date(Date.UTC(year, month, date)).toUTCString())">
+                                        <div class="px-2 rounded-lg mt-1 overflow-hidden border" :class="{
+                                                'border-blue-200 text-blue-800 bg-blue-100': event.event_theme === 'blue',
+                                                'border-red-200 text-red-800 bg-red-100': event.event_theme === 'red',
+                                                'border-yellow-200 text-yellow-800 bg-yellow-100': event.event_theme === 'yellow',
+                                                'border-green-200 text-green-800 bg-green-100': event.event_theme === 'green',
+                                                'border-purple-200 text-purple-800 bg-purple-100': event.event_theme === 'purple'
+                                            }">
+                                            <a data-bs-toggle="modal" :href="event.event_type === 0 ? '#infoCita' : '#infoTrabajo'"  @click="":data-id="event.event_id" x-text="event.event_title" class="text-sm truncate leading-tight" :class="{'event-cita': event.event_type === 0, 'event-trabajo': event.event_type !== 0}"></a>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'public/eventos.html' %}
+</div>
+
+{% include 'public/add_cita.html' %}
+{% include 'public/info_cita.html' %}
+{% include 'public/add_trabajo.html' %}
+{% include 'public/info_trabajo.html' %}

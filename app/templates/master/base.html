@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title%}{%endblock%}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <!--<script src="https://kit.fontawesome.com/1caf79ca77.js" crossorigin="anonymous"></script>-->
+
+    <!--<link rel="stylesheet" href="{{url_for('static', filename='css/app/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/app/bootstrap-icons.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/app/select2.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/app/tailwind.min.css')}}">
+    <script src="{{url_for('static', filename='js/app/alpine.js')}}"defer></script>-->
+
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+
+    {%block cabecera%}{%endblock%}
+    {{ modals() }}
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <button class="toggle-btn" type="button">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img src=" {{ url_for('static', filename='images/logo.jpg') }}" width="32px" height="32px"
+                        class="d-inline-block align-top" alt="">
+                    Calleros Tapiceria
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+                    <i class="bi bi-arrow-down-circle text-gray-100 show-nav"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="nav justify-content">
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="modal" href="#recibirPago"><i class="bi bi-cash"></i> Recibir Pago</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-gray-100" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="box-shadow: none !important;">
+                                Notificaciones
+                                <i class="bi bi-bell-fill"></i>
+                                {%if notificaciones%}
+                                    <span class="top-0 start-100 translate-middle badge rounded-pill bg-danger">{{notificaciones}}</span>
+                                {%endif%}
+                            </a>
+                            <div class="dropdown-menu text-body-secondary" style="min-width: 200px;">
+                                {%if notificaciones%}
+                                {%for notificacion in notificaciones%}
+                                <p></p>
+                                {%endfor%}
+                                {%else%}
+                                <p class="text-break">No hay notificaciones pendientes</p>
+                                <div class="container-fluid">
+                                    <div class="d-flex">
+                                        <div class="col-sm-9">
+                                            <form action="">
+                                                <input type="hidden" name="">
+                                                <p class="text-justify">Hay una cita programada para:</p>
+                                            </form>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button class="btn btn-danger text-center" style="width:100%;"><i class="bi bi-x-lg"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endif%}
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-link text-gray-100">
+                                <i class="bi bi-credit-card"></i> Efectivo: $<span id="dineroEfectivo">0</span> 
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-link text-gray-100">
+                                <i class="bi bi-credit-card"></i> Tarjeta: $<span id="dineroTarjeta">0</span> 
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-fluid d-flex main p-0">
+        <div id="side-cont">
+            <aside class="navbar-brand d-flex flex-column" id="sidebar">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item">
+                        <a href="/" class="sidebar-link">
+                            <i class="bi bi-calendar-event"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{url_for('dashboard.vista_estadisticas')}}" class="sidebar-link">
+                            <i class="bi bi-graph-up"></i>
+                            <span>Estadisticas</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{url_for('trabajo.historial_trabajos')}}" class="sidebar-link">
+                            <i class="bi bi-journals"></i>
+                            <span>Trabajos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{url_for('clientes.vista_clientes')}}" class="sidebar-link">
+                            <i class="bi bi-people"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{url_for('trabajadores.trabajadores')}}" class="sidebar-link">
+                            <i class="bi bi-file-person"></i>
+                            <span>Trabajadores</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="{{url_for('pago_trabajador.pago_trabajador')}}" class="sidebar-link">
+                            <i class="bi bi-cash-stack"></i>
+                            <span>Nomina</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="" class="sidebar-link">
+                            <i class="bi bi-box-seam"></i>
+                            <span>Inventario</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Salir</span>
+                    </a>
+                </div>
+            </aside>
+        </div>
+
+        <div class="container py-3">
+            {%block contenido%}
+            {%endblock%}
+        </div>
+    </main>
+    {%include 'home/pagos/add_pago.html'%}
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!--
+    <script src="{{ url_for('static', filename='js/app/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app/jquery-3.7.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app/select2.min.js') }}"></script>-->
+
+    
+    {%block scripts%}
+    {%endblock%}
+</body>
+
+</html>

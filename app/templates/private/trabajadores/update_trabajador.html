@@ -1,0 +1,48 @@
+<div class="modal fade" id="updateTrabajador" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addCitaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addCitaLabel">Actualizar Trabajador</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api/trabajador/update" method="post" id="registrarTrabajador">
+                    <input type="text" hidden>
+                    <div class="form-group py-2">
+                        <label for="nombre-t-u" class="form-label">Nombre:</label>
+                        <input type="text" id="nombre-t-u" name="nombre-t-u" class="form-control">
+                    </div>
+                    <div class="form-group py-2">
+                        <label for="ap-pat-t-u" class="form-label">Apellido Paterno:</label>
+                        <input type="text" id="ap-pat-t-u" name="ap-pat-t-u" class="form-control">
+                    </div>
+                    <div class="form-group py-2">
+                        <label for="ap-mat-t-u" class="form-label">Apellido Materno:</label>
+                        <input type="text" id="ap-mat-t-u" name="ap-mat-t-u" class="form-control">
+                    </div>
+                    <div class="form-group py-2">
+                        <label for="rol-t-u" class="form-label">Rol:</label>
+                        <select name="rol-t-u" id="rol-t-u" class="form-select">
+                            <option value="4">Tapicero</option>
+                            <option value="3">Mantenimiento</option>
+                            <option value="1">Jefe</option>
+                            <option value="2">Secretaria</option>
+                        </select>
+                    </div>
+                    <div class="form-group py-2">
+                        <label for="ganancia-t-u" class="form-label">Salario/%Ganancia:</label>
+                        <select name="ganancia-t-u" id="ganancia-t-u" class="form-select">
+                            {%for g in ganacia%}
+                            <option value="{{g[0]}}">{{g[1]}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

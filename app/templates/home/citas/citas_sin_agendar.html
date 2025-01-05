@@ -1,0 +1,43 @@
+
+<div class="modal fade" id="listaCitasSinAgendar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="listaCitasSinAgendarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="listaCitasSinAgendarLabel">Citas sin Agendar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group py-2">
+                    <label for="nombre_cliente_cita_sa" class="form-label">Nombre del cliente:</label>
+                    <input type="search" name="nombre_cliente_cita_sa" id="nombre_cliente_cita_sa" class="form-control">
+                </div>
+                
+                <div class="container-fluid">
+                    <div class="table-responsive" style="height: min-content;">
+                        <table class="table" id="tabla-citas-sin-agendar">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre del cliente</th>
+                                    <th scope="col">Teléfono</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Reagendar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="citas_sin_agendar">
+                            </tbody>
+                        </table>
+                        <ul class="pagination" id="numeros_paginacion">
+                            <li class="page-item"><a class="page-link disabled" role="button">Anterior</a></li>
+                            <li class="page-item"><a class="page-link" role="button">Siguiente</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{%include 'home/citas/update_fecha.html' %}

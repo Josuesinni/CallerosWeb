@@ -1,0 +1,49 @@
+{% extends 'master/base.html'%}
+{% block title %} {{titulo}} {% endblock %}
+{% block contenido %}
+<div class="container-fluid">
+    <div class="form-group">
+        <label for="empleados">Selecciona un empleado para realizar el pago:</label>
+        <select name="empleados" id="empleados" class="form-select">
+            {% for trabajador in trabajadores%}
+            <option value="{{trabajador[0]}}">{{trabajador[1]}}</option>
+            {%endfor%}
+        </select>
+    </div>
+    <button class="btn btn-success" id="exportar">Exportar</button>
+    <div class="table-responsive py-4" id="div_tabla">
+        <table class="table" id="tabla-pagos">
+            <thead>
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Auto o pieza</th>
+                    <th scope="col">Descripción del trabajo realizado</th>
+                    <th scope="col">Dueño del carro</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Pago</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                
+            </tbody>
+            <tfoot>
+                <th scope="row">Total</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><div class="input-group"><span class="input-group-text">$</span><input class="form-control" name="total_pago" id="total_pago" readonly></div></td>
+            </tfoot>
+        </table>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoPago" id="btnRealizarPago">Realizar Pago</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoPago">Registro de Pagos</button>
+    
+    </div>
+</div>
+{%include 'private/pago_trabajador/realizar_pago.html'%}
+{%endblock%}
+{%block scripts%}
+<script src="{{url_for('static', filename='js/scripts/pago_trabajador/pago_trabajador.js')}}"></script>
+{%endblock%}

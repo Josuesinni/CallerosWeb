@@ -1,0 +1,74 @@
+{%extends 'master/base.html'%}
+{% block title %} {{titulo}} {% endblock %}
+{% block contenido %}
+<div class="container-fluid">
+    <div class="search-container">
+        <div class="form-group">
+            <label for="buscar-trabajador" class="form-label">Buscar Clientes:</label>
+            <input type="search" name="" id="buscar-trabajador" class="form-control">
+        </div>
+    </div>
+    <div class="container-fluid py-4">
+        <div class="table-responsive" style="height: min-content;">
+            <table class="table" id="tabla-clientes">
+                <thead>
+                    <tr>
+                        <th scope="col">Clave</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Historial</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+            <ul class="pagination" id="numeros_paginacion">
+                <li class="page-item"><a class="page-link disabled" role="button" id="btnAnterior">Anterior</a></li>
+                <li class="page-item"><a class="page-link" role="button" id="btnSiguiente">Siguiente</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    let url='/api/cliente/lista-clientes';
+    async function getData() {
+        let respuesta = await fetch(url);
+        let datos = await respuesta.json();
+        return datos;
+    }
+    function llenarTabla() {
+        tbody.innerHTML = '';
+        let inicio = (pagina_actual - 1) * registrosPorPagina;
+        let final = inicio + registrosPorPagina;
+        const registrosActuales = registros.slice(inicio, final);
+        let contenidoTabla = '';
+        registrosActuales.forEach(row => {
+            let filas = '';
+            for (i in row) {
+                if(row[i]==null){
+                    filas += `<td></td>`
+                }else{
+                    filas += `<td>${row[i]}</td>`
+                }
+            };
+            
+            filas += 
+            `<td>
+                <button class="btn btn-secondary" data-id="${row[0]}"><i class="bi bi-file-earmark-spreadsheet"></i></button>
+            </td>
+            <td>
+                <button class="btn btn-primary" data-id="${row[0]}"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-danger" data-id="${row[0]}"><i class="bi bi-trash"></i></button>
+            </td>
+            `
+            contenidoTabla +=`<tr>${filas}</tr>`;
+        });
+        tbody.innerHTML = contenidoTabla;
+    }
+</script>
+<script src="{{url_for('static',filename='js/paginacion_tabla.js')}}"></script>
+{% endblock %}

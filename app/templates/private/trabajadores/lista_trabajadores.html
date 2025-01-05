@@ -1,0 +1,40 @@
+{%extends 'master/base.html'%}
+{% block title %} {{titulo}} {% endblock %}
+{% block contenido %}
+<div class="container-fluid">
+    <div class="py-3">
+        <p class="h5">Acciones</p>
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addTrabajador"><i class="bi bi-person-plus"></i> Agregar Trabajador</button>
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addPrestamo"><i class="bi bi-clipboard-plus"></i> Registrar prestamo</button>
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#listaPrestamos"><i class="bi bi-clipboard"></i> Historial de prestamos</button>
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addApartamento"><i class="bi bi-house-gear"></i>  Apartamentos</button>
+    </div>
+    <div class="container-fluid">
+        <div class="table-responsive" style="height: min-content;">
+            <table class="table" id="tabla-trabajadores">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido Paterno</th>
+                        <th scope="col">Apellido Materno</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Salario/%Ganancia</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{%include 'private/trabajadores/add_trabajador.html'%}
+{%include 'private/trabajadores/update_trabajador.html'%}
+{%include 'private/trabajadores/delete_trabajador.html'%}
+{%include 'private/trabajadores/prestamos/add_prestamo.html'%}
+{%include 'private/trabajadores/prestamos/lista_prestamos.html'%}
+
+{%endblock%}
+{%block scripts%}
+<script src="{{url_for('static', filename='js/scripts/trabajadores/trabajadores.js')}}"></script>
+{%endblock%}

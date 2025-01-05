@@ -1,0 +1,21 @@
+<div class="modal fade" id="updateFecha" tabindex="-1" aria-labelledby="updateFechaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="updateFechaLabel">Confirmar Decisión</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">¿Desea agendar la cita para la fecha <span id="fecha_modal"></span>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form action="api/cita/agendar_cita" method="post">
+                    <input type="hidden" name="id_cita_sin_agendar" id="id_cita_sin_agendar">
+                    <input type="hidden" name="fecha_cita_sin_agendar" id="fecha_cita_sin_agendar">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

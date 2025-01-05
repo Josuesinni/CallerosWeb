@@ -1,0 +1,40 @@
+{%extends 'master/base.html'%}
+{% block title %} {{titulo}} {% endblock %}
+{% block contenido %}
+<div class="container-fluid">
+    <h1 class="h1">Presupuesto</h1>
+    <div class="row gx-3">
+        <section class="graficas col-sm-5">
+            <div style="max-width: 400px;">
+                {%include 'private/estadisticas/grafica/grafica.html'%}
+            </div>
+        </section>
+        <section class="gastos-fijos col-sm-7">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-gastos-previstos-tab" data-bs-toggle="tab" data-bs-target="#desgloseGastosPrevistos" 
+                        type="button" role="tab" aria-controls="nav-gastos-previstos" aria-selected="true">Gastos Previstos</button>
+                    <button class="nav-link" id="nav-ingresos-tab" data-bs-toggle="tab" data-bs-target="#desglosePagos" 
+                        type="button" role="tab" aria-controls="nav-ingresos" aria-selected="galse">Desglose de Ingresos</button>
+                    <button class="nav-link" id="nav-gastos-tab" data-bs-toggle="tab" data-bs-target="#desgloseGastos"
+                        type="button" role="tab" aria-controls="nav-gastos" aria-selected="false">Desglose de Gastos</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                {%include 'private/estadisticas/tablas/tabla_resultados.html'%}
+                {%include 'private/estadisticas/tablas/tabla_ingresos.html'%}
+                {%include 'private/estadisticas/tablas/tabla_gastos.html'%}
+            </div>
+            <div>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGasto">Registrar Gasto</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGasto">Ajustar Previsto</button>
+            </div>
+        </section>
+    </div>
+</div>
+{%include 'private/estadisticas/add_gasto.html'%}
+
+{%endblock%}
+{%block scripts%}
+<script src="{{url_for('static', filename='js/scripts/estadisticas/contenido_tablas.js')}}"></script>
+{%endblock%}

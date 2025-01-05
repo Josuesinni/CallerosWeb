@@ -1,0 +1,50 @@
+<!--Estructura
+Datos del cliente
+Fecha de ingreso
+Datos del vehiculo
+Información de lo que se le hará
+
+Añadir responsables? aún no
+-->
+
+<div class="modal fade" id="addTrabajo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addTrabajoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addTrabajoLabel">Añadir Trabajo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{modal_messages()}}
+                <form action="/api/trabajo/add" method="post" id="registrarTrabajo">
+                    {{form_a_trabajo.csrf_token}}
+                    <div class="form-group py-2" id="form-fecha">
+                        {{form_a_trabajo.fecha_trabajo_a.label(class="form-label")}}
+                        {{form_a_trabajo.fecha_trabajo_a(class="form-control")}}
+                    </div>
+                    <div class="form-group py-2">
+                        <label for="nombre_cliente_trabajo_a" class="form-label">Nombre del Cliente:</label>
+                        <select class="form-select" name="nombre_cliente_trabajo_a" id="nombre_cliente_trabajo_a"></select>
+                    </div>
+                    <div class="form-group py-2">
+                        {{form_a_trabajo.telefono_cliente_trabajo_a.label(class="form-label")}}
+                        {{form_a_trabajo.telefono_cliente_trabajo_a(class="form-control")}}
+                    </div>
+                    <div class="form-group py-2">
+                        {{form_a_trabajo.datos_auto_trabajo_a.label(class="form-label")}}
+                        {{form_a_trabajo.datos_auto_trabajo_a(class="form-control")}}
+                    </div>
+                    <div class="form-group py-2">
+                        {{form_a_trabajo.descripcion_trabajo_a.label(class="form-label")}}
+                        {{form_a_trabajo.descripcion_trabajo_a(class="form-control")}}
+                    </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

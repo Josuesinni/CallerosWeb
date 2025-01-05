@@ -1,0 +1,36 @@
+<div class="modal fade" id="addPrestamo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addPrestamoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addPrestamoLabel">Registrar Prestamo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api/prestamo/add" method="post" id="registrarPrestamo">
+                    <input type="text" hidden>
+                    <label for="prestamo_nombre_trabajador" class="form-label">Nombre del trabajador:</label>
+                    <select name="prestamo_nombre_trabajador" id="prestamo_nombre_trabajador" class="form-select">
+                        {%for trabajador in trabajadores%}
+                        <option value="{{trabajador[0]}}">{{trabajador[1]}}</option>
+                        {%endfor%}
+                    </select>
+                    <div class="form-group py-2">
+                        <label for="prestamo_monto" class="form-label">Monto:</label>
+                        <input type="text" id="prestamo_monto" name="prestamo_monto" class="form-control">
+                    </div>
+                    <div class="form-group py-2">
+                        <label for="prestamo_tipo" class="form-label">Razón:</label>
+                        <select name="prestamo_tipo" id="prestamo_tipo" class="form-select">
+                            <option value="0">Personal</option>
+                            <option value="1">Gasto Material</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

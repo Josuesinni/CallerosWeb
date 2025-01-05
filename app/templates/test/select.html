@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <select id="field2" style="width: 120px;">
+        <option value=""></option>
+        <option value="apples">apples</option>
+        <option value="oranges">oranges</option>
+        <option value="bananas">bananas</option>
+    </select>
+    <br>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#field2").select2({
+                placeholder: "Ingresa el nombre del cliente...",
+                tags: true
+            });
+            if ($('#field2').find("option[value='" + data.id + "']").length) {
+                $('#field2').val(data.id).trigger('change');
+            } else { 
+                // Create a DOM Option and pre-select by default
+                var newOption = new Option(data.text, data.id, true, true);
+                // Append it to the select
+                $('#field2').append(newOption).trigger('change');
+            } 
+        })
+
+    </script>
+</body>
+
+</html>

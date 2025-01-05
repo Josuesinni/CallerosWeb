@@ -1,0 +1,131 @@
+<div class="pt-4 pb-4">
+    <canvas id="myChart" width="400px" height="400px" style="max-width: 400px; max-height:400px;"></canvas>
+</div>
+<div>
+    <canvas id="myChart2" width="400px" height="300px"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let responses;
+    let datos;
+    async function fetchData() {
+        const urls = [
+            '/api/data/ingresos',
+            '/api/data/gastos_varios'
+        ];
+
+        try {
+            responses = await Promise.all(urls.map(url => fetch(url)));
+            datos = await Promise.all(responses.map(res => res.json()));
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    fetchData().then(crearGraficas);
+
+    function crearGraficas() {
+        console.log("Creando graficas...")
+        const ctx = document.getElementById('myChart');
+        const ctx2 = document.getElementById('myChart2');
+
+        let etiqueta = ['Ingresos'];
+        let valor = [datos[0][0].pop()];
+        let index=0;
+        datos[1].forEach(row => {
+            if(index==1){
+                row[0]='Serv Luz, Agua, Basura, Alarmas'
+            }
+            etiqueta.push(row[0]);
+            valor.push(row[1]);
+            index++;
+        })
+        data = {
+            datasets: [{
+                label: 'Cantidad',
+                data: valor,
+                backgroundColor: [
+                    'rgb(134, 245, 80)',
+                    'rgb(126, 251, 249)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(239, 177, 220)',
+                    'rgb(236, 111, 121)',
+                    'rgb(48, 217, 163)',
+                    'rgb(252, 228, 46)',
+                    'rgb(214, 121, 50)',
+                    'rgb(156, 78, 250)',
+                    'rgb(250, 197, 100)',
+                    'rgb(226, 214, 191)'
+                ],
+                hoverOffset: 4
+            }],
+            labels: etiqueta
+        }
+        const config = {
+            type: 'doughnut',
+            data: data,
+        };
+        new Chart(ctx, config);
+        const data2 = {
+            labels: etiqueta,
+            datasets: [{
+                label: 'Totales',
+                data: valor,
+                backgroundColor: [
+                    'rgb(134, 245, 80)',
+                    'rgb(126, 251, 249)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(239, 177, 220)',
+                    'rgb(236, 111, 121)',
+                    'rgb(48, 217, 163)',
+                    'rgb(252, 228, 46)',
+                    'rgb(214, 121, 50)',
+                    'rgb(156, 78, 250)',
+                    'rgb(250, 197, 100)',
+                    'rgb(226, 214, 191)'
+                ],
+                borderColor: [
+                    'rgb(134, 245, 80)',
+                    'rgb(126, 251, 249)',
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(239, 177, 220)',
+                    'rgb(236, 111, 121)',
+                    'rgb(48, 217, 163)',
+                    'rgb(252, 228, 46)',
+                    'rgb(214, 121, 50)',
+                    'rgb(156, 78, 250)',
+                    'rgb(250, 197, 100)',
+                    'rgb(226, 214, 191)'
+                ],
+                borderWidth: 1
+            }]
+        };
+        const config2 = {
+            type: 'bar',
+            data: data2,
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        
+                    },
+                    x:{
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return '$' + value;
+                            }
+                        }
+                    }
+                }
+            },
+        };
+        new Chart(ctx2, config2);
+    }
+</script>

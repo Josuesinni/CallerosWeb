@@ -1,0 +1,23 @@
+<div id="eventos-calendario" class="container py-6 d-flex flex-column mb-3">
+    <div class="day-selector p-2">
+        <div class="d-flex inline-block">
+            <p x-text="getFecha()"></p>
+            <button class="end-0" @click="--day_month;selectedDate(day_month)"> < </button>
+            <button class="end-0" @click="++day_month;selectedDate(day_month)"> > </button>
+        </div>
+    </div>
+    <div class="title p-2">
+        <h1 class="fs-3"> Eventos </h1>
+    </div>
+    <div class="p-2" id="events">
+        <ul id="lista-eventos"></ul>
+    </div>
+    <div class="d-flex flex-row mb-3 p-2">
+        <button class="btn btn-primary p-2 me-auto" data-bs-toggle="modal" data-bs-target="#addCita">
+            Agregar Cita
+        </button>
+        <button class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#addTrabajo">
+            Agregar Trabajo
+        </button>
+    </div>
+</div>

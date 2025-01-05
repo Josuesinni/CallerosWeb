@@ -1,0 +1,61 @@
+<div class="modal fade" id="recibirPago" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addCitaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addCitaLabel">Recibir Pago</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ modal_messages() }}
+                <form action="/api/pago_cliente/add" method="POST" id="registrarCita">
+                    <input id="csrf_token" name="csrf_token" type="hidden" value="123">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-group py-2">
+                                <label for="nombre_cliente_pago" class="form-label">Nombre del cliente:</label>
+                                <select class="form-select" name="nombre_cliente_pago"id="nombre_cliente_pago"></select>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="datos_auto_pago" class="form-label">Datos del Auto:</label>
+                                <select class="form-select" name="datos_auto_pago" id="datos_auto_pago"></select>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="detalles_trabajo_pago" class="form-label">Detalles:</label>
+                                <textarea class="form-control" name="detalles_trabajo_pago" id="detalles_trabajo_pago"
+                                    readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group py-2">
+                                <label for="metodo_pago" class="form-label">Metodo de pago:</label>
+                                <select class="form-select" name="metodo_pago_cliente" id="metodo_pago_cliente">
+                                    <option value="0">Efectivo</option>
+                                    <option value="1">Transferencia</option>
+                                </select>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="monto_pago" class="form-label">Monto:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" name="monto_pago_cliente" id="monto_pago_cliente" min="0" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group py-2">
+                                <label class="form-label"><b>Total a pagar: </b><span id="total_pagar_trabajo_cliente">$0.00</span></label>
+                                <br>
+                                <label class="form-label"><b>Cambio: </b><span id="cambio">$0.00</span></label>
+                                <br>
+                                <label class="form-label"><b>Restante: </b><span id="restante">$0.00</span></label>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

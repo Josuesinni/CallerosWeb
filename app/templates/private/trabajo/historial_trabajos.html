@@ -1,0 +1,116 @@
+{%extends 'master/base.html'%}
+{% block title %} {{titulo}} {% endblock %}
+{% block contenido %}
+<div class="container-fluid">
+    <section class="search">
+        <div class="form-group py-2">
+            <label for="buscar_trabajo" class="form-label">Buscar:</label>
+            <input type="text" name="buscar_trabajo" id="buscar_trabajo" class="form-control">
+            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-funnel"></i> Filtros
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <h6 class="dropdown-header">Filtros:</h6>
+                </li>
+                <li>
+                    <div class="form-check form-switch ml-1">
+                        <input type="radio" class="form-check-input" name="estado" id="trabajosTerminados">
+                        <label class="form-check-label" for="trabajosTerminados">Terminados</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-check form-switch ml-1">
+                        <input type="radio" class="form-check-input" name="estado" id="trabajosEnProgreso">
+                        <label class="form-check-label" for="trabajosEnProgreso">En progreso</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-check form-switch ml-1">
+                        <input type="radio" class="form-check-input" name="estado" id="trabajosCancelado">
+                        <label class="form-check-label" for="trabajosCancelado">Cancelados</label>
+                    </div>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <div class="form-check form-switch ml-1">
+                        <input type="radio" class="form-check-input" name="pago" id="trabajosPagados">
+                        <label class="form-check-label" for="trabajosPagados">Pagados</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form-check form-switch ml-1">
+                        <input type="radio" class="form-check-input" name="pago" id="trabajosSinPagar">
+                        <label class="form-check-label" for="trabajosSinPagar">Incompletos</label>
+                    </div>
+                </li>
+            </ul>
+            <label for="">Ingreso</label>
+            <input type="date" name="" id="">
+            <label for="">Salida</label>
+            <input type="date" name="" id="">
+
+        </div>
+
+    </section>
+    <section class="table-responsive">
+        <table class="table">
+            <thead>
+                <th style="width: 5%;">Folio</th>
+                <th style="width: 15%;">Cliente</th>
+                <th style="width: 10%;">Teléfono</th>
+                <th style="width: 10%;">Auto</th>
+                <th style="width: 20%;">Descripción</th>
+                <th style="width: 10%;">Fecha Ingreso</th>
+                <th style="width: 10%;">Fecha Salida</th>
+                <th style="width: 5%;">Total</th>
+                <th style="width: 5%;">Restante</th>
+                <th style="width: 5%;">Pagado</th>
+                <th style="width: 5%;">Estatus</th>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+        <ul class="pagination" id="numeros_paginacion">
+            <li class="page-item"><a class="page-link disabled" role="button" id="btnAnterior">Anterior</a></li>
+            <li class="page-item"><a class="page-link" role="button" id="btnSiguiente">Siguiente</a></li>
+        </ul>
+    </section>
+</div>
+{%endblock%}
+{% block scripts %}
+<script>
+    let url = '/api/trabajo/lista_trabajos';
+    async function getData() {
+        let respuesta = await fetch(url);
+        let datos = await respuesta.json();
+        datos.forEach(dato => {
+            dato[5]=dato[5].slice(0,10);
+            dato[6]=(dato[6]!=null)?dato[6].slice(0,10):'';
+        });
+        return datos;
+    }
+    function llenarTabla() {
+        tbody.innerHTML = '';
+        let inicio = (pagina_actual - 1) * registrosPorPagina;
+        let final = inicio + registrosPorPagina;
+        const registrosActuales = registros.slice(inicio, final);
+        let contenidoTabla = '';
+        registrosActuales.forEach(row => {
+            let filas = '';
+            for (i in row) {
+                if(row[i]==null){
+                    filas += `<td></td>`
+                }else{
+                    filas += `<td>${row[i]}</td>`
+                }
+            };
+            contenidoTabla +=`<tr>${filas}</tr>`;
+        });
+        tbody.innerHTML = contenidoTabla;
+    }
+</script>
+<script src="{{url_for('static',filename='js/paginacion_tabla.js')}}"></script>
+{% endblock %}
