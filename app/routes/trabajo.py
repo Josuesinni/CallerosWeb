@@ -82,7 +82,9 @@ def finalizar_trabajo():
 def get_trabajo():
     id = request.args.get('id', type=int)
     resultado=procedimientos.llamar_busqueda("sp_buscarTrabajo",[int(id)])
-    return jsonify(resultado)
+    responsables=procedimientos.llamar_consulta("sp_buscarResponsablesTrabajo",[int(id)])
+    print(responsables)
+    return jsonify({'datos_trabajo':resultado,'datos_responsable':responsables})
 
 @trabajo_bp.route("/api/trabajo/trabajos_cliente",  methods=["GET", "POST"])
 def get_trabajos_clientes():

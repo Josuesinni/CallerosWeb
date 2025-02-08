@@ -122,6 +122,7 @@ getFinanzas().then(actualizarDinero);
 function actualizarDinero(){
     $("#dineroEfectivo").text(dineroEnCaja[0]);
     $("#dineroTarjeta").text(dineroEnCaja[1]);
+    $("#dineroTotal").text(Number.parseFloat(dineroEnCaja[1])+Number.parseFloat(dineroEnCaja[0]));
 }
 
 

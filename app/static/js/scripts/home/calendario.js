@@ -83,7 +83,22 @@ function calendar_app() {
             return hoy.toDateString() === fecha.toDateString() ? true : false;
         },
         getFecha() {
-            return  this.dia+"-" + (this.mes + 1)+ "-" +this.anio;
+            return  (this.anio+"-"+((this.mes<10)?0:'')+(this.mes + 1)+ "-"+((this.dia<10)?0:'')+this.dia);
+        },setFechaCalendario(event){
+            let f = new Date(event.target.value);
+            this.dia=f.getUTCDay();
+            if(this.anio!=f.getUTCFullYear() && this.mes!=f.getUTCMonth()){
+                this.anio=f.getUTCFullYear();
+                this.mes=f.getUTCMonth();
+            }else if (this.mes!=f.getUTCMonth() && this.anio==f.getUTCFullYear()){
+                this.mes=f.getUTCMonth();
+            }else if (this.mes==f.getUTCMonth() && this.anio!=f.getUTCFullYear()){
+                this.anio=f.getUTCFullYear();
+            }
+            this.getNoDeDias();
+            this.getEventos(this.mes,this.anio);
+            
+            this.setFechaSeleccionada(this.dia);
         },
         getFechaSeleccionada(dia) {
             const hoy = new Date(this.anio, this.mes, this.dia);
@@ -96,14 +111,17 @@ function calendar_app() {
                 this.mes++;
                 this.getNoDeDias();
                 this.dia = 1;
+                this.getEventos(this.mes,this.anio);
             }
-            if (this.day_month < 1) {
+            if (this.dia < 1) {
                 this.mes--;
                 this.getNoDeDias();
                 this.dia = this.no_de_dias.length;
+                this.getEventos(this.mes,this.anio);
             }
-            $("#fecha_cita_a").val(this.anio + "-" + (this.mes+1) + "-" + this.dia);
-            $("#fecha_trabajo_a").val(this.anio + "-" + (this.mes+1) + "-" + this.dia);
+            let fecha= new Date(this.anio + "-" + (this.mes+1) + "-" + this.dia).toISOString().substring(0,10);
+            $("#fecha_cita_a").val(fecha);
+            $("#fecha_trabajo_a").val(fecha);
             this.addListaEvento(dia);
         },
         isEventos(){

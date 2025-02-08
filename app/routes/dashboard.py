@@ -3,6 +3,7 @@ from . import dashboard_bp, jsonify
 import json
 from flask import render_template, request, redirect, url_for
 from app.utils import procedimientos
+from flask_login import login_required
 
 @dashboard_bp.route("/api/data/efectivo")
 def get_efectivo():
@@ -14,14 +15,14 @@ def get_efectivo():
 @dashboard_bp.route("/api/data/tarjeta")
 def get_tarjeta():
     cur = get_cursor()
-    cur.execute("""SELECT sum(monto) from pago_cliente where tipo=1""")
+    cur.execute("""SELECT ifnull(sum(monto),0.00) from pago_cliente where tipo=1""")
     result = cur.fetchall()
     return jsonify(result)
 
 @dashboard_bp.route("/api/data/ingresos")
 def get_ingresos():
     cur = get_cursor()
-    cur.execute("""SELECT sum(monto) FROM pago_cliente""")
+    cur.execute("""SELECT ifnull(sum(monto),0.00) FROM pago_cliente""")
     result = cur.fetchall()
     return jsonify(result)
 
@@ -61,6 +62,7 @@ def get_gastos_fijos():
     return jsonify(result)
 
 @dashboard_bp.route("/estadisticas")
+@login_required
 def vista_estadisticas():
     return render_template(
         "private/estadisticas/estadisticas.html",
@@ -71,6 +73,16 @@ def vista_estadisticas():
 def get_gastos_previstos():
     result=procedimientos.llamar_consulta("sp_consultaResultadosGastos",[])
     return jsonify(result)
+
+@dashboard_bp.route("/api/data/num_trabajos")
+def get_num_trabajos():
+    ts=procedimientos.llamar_sentencia("SELECT get_trabajos_semanales()",False)
+    pts=procedimientos.llamar_sentencia("SELECT get_porc_trabajos_semanales()",False)
+    igs=procedimientos.llamar_sentencia("SELECT get_ingresos_semanales()",False)
+    pigs=procedimientos.llamar_sentencia("SELECT get_porc_ingresos_semanales()",False)
+    gs=procedimientos.llamar_sentencia("SELECT get_gastos_semanales()",False)
+    pgs=procedimientos.llamar_sentencia("SELECT get_porc_gastos_semanales()",False)
+    return jsonify(ts,pts,igs,pigs,gs,pgs)
 
 @dashboard_bp.route("/api/gasto/add", methods=['POST'])
 def add_gasto():

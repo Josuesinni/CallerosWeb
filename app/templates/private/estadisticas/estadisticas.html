@@ -1,37 +1,176 @@
 {%extends 'master/base.html'%}
 {% block title %} {{titulo}} {% endblock %}
+{%block cabecera %}
+<style>
+    .datos, .datos-grafica{
+        display: flex;
+    }
+    .card-info{
+        width: 20%;
+        margin-right:5%;
+    }
+    .datos-grafica .card-tabla{
+        width: 65%;
+    }
+    .datos-grafica .card-grafica{
+        width: 35%;
+    }
+    .etiqueta{
+        width: 30px;
+        height:30px; 
+        border-radius: 50%;
+    }
+    @media only screen and (max-width: 500px) {
+        .card-info{
+            width: 100%;
+            margin-top:10px;
+        }
+        .datos-grafica .card{
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .datos, .datos-grafica{
+            display: inline;
+            margin-bottom: 10px;
+        }
+        .text-reference{
+            display: none;
+        }
+    }
+</style>
+{%endblock%}
 {% block contenido %}
 <div class="container-fluid">
-    <h1 class="h1">Presupuesto</h1>
-    <div class="row gx-3">
-        <section class="graficas col-sm-5">
-            <div style="max-width: 400px;">
-                {%include 'private/estadisticas/grafica/grafica.html'%}
+    <div class="row">
+        <div class="datos py-2">
+            <div class="card card-info" style="border-left: 3px solid #ffc800">
+                <div class="card-body">
+                    <div class="card-subtitle text-muted">Ingresos</div>
+                    <div class="card-text" style="display: flex;">
+                        <p class="col-9" style="color: #ffc800; font-size:30px; line-height:50px;">$<span id="total_ingresos"></span></p>
+                        <i class="bi bi-cash col-3" style="font-size:30px; text-align:center;background-color: #ffc800; border-radius: 50%; height:50px; width:50px; line-height:50px; color:#fff"></i>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted" style="font-size: 10px;"><span id="porc_ingresos"></span>% desde la semana pasada</p>
+                </div>
             </div>
-        </section>
-        <section class="gastos-fijos col-sm-7">
+            <div class="card card-info" style="border-left: 3px solid #e8214f">
+                <div class="card-body">
+                    <div class="card-subtitle text-muted">Gastos</div>
+                    <div class="card-text" style="display: flex;">
+                        <p class="col-9" style="color: #e8214f; font-size:30px; line-height:50px;">$<span id="total_gastos"></span></p>
+                        <i class="bi bi-people-fill col-3" style="font-size:30px; text-align:center;background-color: #e8214f; border-radius: 50%; height:50px; width:50px; line-height:50px; color:#fff"></i>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted" style="font-size: 10px;"><span id="porc_gastos"></span>% desde la semana pasada</p>
+                </div>
+            </div>
+            <div class="card card-info" style="border-left: 3px solid #3cff00">
+                <div class="card-body">
+                    <div class="card-subtitle text-muted">Total Beneficios</div>
+                    <div class="card-text" style="display: flex;">
+                        <p class="col-9" style="color: #3cff00; font-size:30px; line-height:50px;">$<span id="total_beneficios"></p>
+                        <i class="bi bi-wallet2 col-3" style="font-size:30px; text-align:center;background-color: #3cff00; border-radius: 50%; height:50px; width:50px; line-height:50px; color:#fff"></i>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted" style="font-size: 10px;"><span id="porc_beneficios"></span>% desde la semana pasada</p>
+                </div>
+            </div>
+            <div class="card card-info" style="border-left: 3px solid #ffa600">
+                <div class="card-body">
+                    <div class="card-subtitle text-muted">Fondos</div>
+                    <div class="card-text" style="display: flex;">
+                        <p class="col-9" style="color: #ffa600; font-size:30px; line-height:50px;">$2,000</p>
+                        <i class="bi bi-piggy-bank-fill col-3" style="font-size:30px; text-align:center; background-color: #ffa600; border-radius: 50%; height:50px; width:50px; line-height:50px; color:#fff"></i>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted" style="font-size: 10px;">+5% desde la semana pasada</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="datos py-2">
+            <div class="card card-info" style="border-left: 3px solid #d400ff;">
+                <div class="card-body">
+                    <div class="card-subtitle text-muted">Trabajos Realizados</div>
+                    <div class="card-text" style="display: flex;">
+                        <p class="col-9" style="color: #d400ff; font-size:30px; line-height:50px;"><span id="num_trabajos"></span></p>
+                        <i class="bi bi-gear-wide-connected col-3" style="font-size:30px; text-align:center;background-color: #d400ff; border-radius: 50%; height:50px; width:50px; line-height:50px; color:#fff"></i>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted" style="font-size: 10px;"><span id="porc_trabajos"></span>% desde la semana pasada</p>
+                </div>
+            </div>
+            <div class="card card-info" style="border-left: 3px solid #0011ff">
+                <div class="card-body">
+                    <div class="card-subtitle text-muted">Clientes Nuevos</div>
+                    <div class="card-text" style="display: flex;">
+                        <p class="col-9" style="color: #0011ff; font-size:30px; line-height:50px;">2</p>
+                        <i class="bi bi-people-fill col-3" style="font-size:30px; text-align:center;background-color: #0011ff; border-radius: 50%; height:50px; width:50px; line-height:50px; color:#fff"></i>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted" style="font-size: 10px;">+5% desde la semana pasada</p>
+                </div>
+            </div>
+        </div> 
+    </div>
+    
+    <div class="datos-grafica py-5" style="max-height:500px;">
+        <div class="card card-tabla">
+            <div style="height:50px; width: 100%; display:flex; background-color:#dddddd; position:absolute; top:0;">
+                <p style="line-height: 50px; color:#292929; font-weight:400; font-size:20px; margin-left:20px;">Informe de Gastos</p>
+                <div style="line-height:50px; position:absolute; right:30px; top:0;">
+                    <button><span class="text-reference" style="color:#292929; font-size:16px;">Descargar Reporte</span><i class="bi bi-file-earmark-arrow-down-fill" style="font-size: 20px; color:#fff"></i></button>
+                </div>
+            </div>
+            <div style="overflow-x: hidden; overflow-y: auto; margin-top:60px;">
+                {%include 'private/estadisticas/tablas/tabla_resultados.html'%}
+            </div>
+            <div style="background-color:#000; line-height:60px;">
+                <div style="margin-left: calc(100% - 180px);">
+                    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addGasto" style="height:40px;"> <i class="bi bi-cash"></i> Registrar Gasto</button>
+                </div>
+            </div>
+        </div>
+        <div class="card card-grafica">
+            {%include 'private/estadisticas/grafica/grafica.html'%}
+        </div>
+    </div>
+    
+    <div class="card" style="max-height:200px; overflow-x: hidden; overflow-y: auto;">
+        <section class="gastos-fijos">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-gastos-previstos-tab" data-bs-toggle="tab" data-bs-target="#desgloseGastosPrevistos" 
-                        type="button" role="tab" aria-controls="nav-gastos-previstos" aria-selected="true">Gastos Previstos</button>
-                    <button class="nav-link" id="nav-ingresos-tab" data-bs-toggle="tab" data-bs-target="#desglosePagos" 
-                        type="button" role="tab" aria-controls="nav-ingresos" aria-selected="galse">Desglose de Ingresos</button>
+                    <button class="nav-link active" id="nav-ingresos-tab" data-bs-toggle="tab" data-bs-target="#desglosePagos" 
+                        type="button" role="tab" aria-controls="nav-ingresos" aria-selected="galse">Ingresos</button>
                     <button class="nav-link" id="nav-gastos-tab" data-bs-toggle="tab" data-bs-target="#desgloseGastos"
-                        type="button" role="tab" aria-controls="nav-gastos" aria-selected="false">Desglose de Gastos</button>
+                        type="button" role="tab" aria-controls="nav-gastos" aria-selected="false">Egresos</button>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
-                {%include 'private/estadisticas/tablas/tabla_resultados.html'%}
                 {%include 'private/estadisticas/tablas/tabla_ingresos.html'%}
                 {%include 'private/estadisticas/tablas/tabla_gastos.html'%}
             </div>
-            <div>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGasto">Registrar Gasto</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGasto">Ajustar Previsto</button>
-            </div>
         </section>
     </div>
+
+    <!--
+    <div class="row gx-3">
+        <section class="graficas col-sm-5">
+            
+        </section>
+        
+    </div>
 </div>
+-->
 {%include 'private/estadisticas/add_gasto.html'%}
 
 {%endblock%}

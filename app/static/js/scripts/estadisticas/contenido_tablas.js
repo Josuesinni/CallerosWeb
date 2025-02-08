@@ -28,9 +28,48 @@ async function getGastosPrevistos() {
     return listaGastos;
 }
 
+async function getNumTrabajos() {
+    let response = await fetch('/api/data/num_trabajos');
+    let listaGastos = await response.json();
+    return listaGastos;
+}
+getNumTrabajos().then(cargarStats).catch();
 getListaGastos().then(cargarListaGastos).catch(error => console.log(error));
 getListaIngresos().then(cargarListaIngresos).catch(error => console.log(error));
 getGastosPrevistos().then(cargarGastosPrevistos).catch(error => console.log(error));
+
+function cargarStats(trabajos){
+    document.getElementById("num_trabajos").innerText = trabajos[0]
+    if(trabajos[1]>0)
+        trabajos[1]="+"+trabajos[1]
+    document.getElementById("porc_trabajos").innerText = trabajos[1]
+
+    document.getElementById("total_ingresos").innerText = trabajos[2]
+    ingAnteriores=trabajos[2]/(trabajos[3]+1);
+    console.log(ingAnteriores)
+    if(trabajos[3]>0)
+        trabajos[3]="+"+trabajos[3]
+    document.getElementById("porc_ingresos").innerText = trabajos[3]
+    
+    document.getElementById("total_gastos").innerText = trabajos[4]
+    gasAnteriores=trabajos[4]/(trabajos[5]+1);
+    console.log(gasAnteriores)
+    if(trabajos[5]>0)
+        trabajos[5]="+"+trabajos[5]
+    document.getElementById("porc_gastos").innerText = trabajos[5]
+
+    benAnteriores=ingAnteriores-gasAnteriores;
+    benActuales=trabajos[2]-trabajos[4];
+    if (benAnteriores==0)
+        porBenActuales=100;
+    else
+        porBenActuales=(benActuales/benAnteriores-1)*100;
+    
+    document.getElementById("total_beneficios").innerText = benActuales
+    if(porBenActuales>0)
+        porBenActuales="+"+porBenActuales
+    document.getElementById("porc_beneficios").innerText = porBenActuales
+}
 
 function cargarListaIngresos(ingresos) {
     let contenidoTabla = '';

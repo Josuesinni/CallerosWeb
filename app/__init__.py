@@ -4,7 +4,8 @@ from flask_modals import Modal
 from .routes import (navegacion_bp, clientes_bp, dashboard_bp, 
                         citas_bp, trabajadores_bp, trabajo_bp, 
                         pago_trabajador_bp,pago_cliente_bp, prestamo_bp)
-
+from flask_login import LoginManager
+from app.models.login import get_user_by_id
 modal = Modal()
 def create_app():
     app = Flask(__name__)
@@ -24,6 +25,13 @@ def create_app():
     app.register_blueprint(pago_cliente_bp)    
     app.register_blueprint(prestamo_bp)    
     modal.init_app(app)
+    #Carga el controlador de usuarios
+    login_manager = LoginManager(app)
+    login_manager.login_view = 'navegacion.login'
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return get_user_by_id(user_id)
     return app
 
 app = create_app()

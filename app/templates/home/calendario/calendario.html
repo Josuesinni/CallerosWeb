@@ -42,7 +42,7 @@
                             <div style="width: 14.28%; height: 14vh" 
                                 class="px-2 pt-2 border-r border-b relative cursor-pointer hover:bg-gray-200"
                                 :class="{'bg-gray-300': getFechaSeleccionada(no_dia)==true}" 
-                                @click="setFechaSeleccionada(no_dia)">
+                                @click="setFechaSeleccionada(no_dia);" data-bs-toggle="modal" data-bs-target="#selectTipo">
 
                                 <div x-text="no_dia"
                                     class="inline-flex w-6 h-6 items-center justify-center text-center leading-none rounded-full"
@@ -68,7 +68,29 @@
     </div>
     {% include 'home/calendario/eventos.html' %}
 </div>
-
+<div class="modal fade" id="selectTipo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="selectTipoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="selectTipoLabel">¿Qué desea añadir?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-row p-2" style="margin-top: auto;">
+                    <button class="btn btn-dark m-2 mx-auto p-2" data-bs-toggle="modal" data-bs-target="#addCita" data-bs-dismiss="modal">
+                        <i class="bi bi-calendar2-date"></i>
+                        <span>Agregar Cita</span>
+                    </button>
+            
+                    <button class="btn btn-dark m-2 mx-auto p-2" data-bs-toggle="modal" data-bs-target="#addTrabajo" data-bs-dismiss="modal">
+                        <i class="bi bi-briefcase"></i>
+                        <span>Agregar Trabajo</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% include 'home/citas/add_cita.html' %}
 {% include 'home/citas/info_cita.html' %}
 {% include 'home/citas/citas_sin_agendar.html' %}

@@ -1,9 +1,98 @@
-<div class="pt-4 pb-4">
-    <canvas id="myChart" width="400px" height="400px" style="max-width: 400px; max-height:400px;"></canvas>
+<div style="overflow-x: hidden; overflow-y: auto;">
+    <div style="height:50px; width: 100%; display:flex; background-color:#000;">
+        <p style="line-height: 50px; color:#fff; font-weight:400; font-size:20px; margin-left:20px;">Historicos</p>
+    </div>
+    <div class="grafica" style="align-items:center;">
+        <canvas id="myChart" style="max-width: 300px; max-height:300px; margin:auto;"></canvas>
+    </div>
+    <div>
+        <ul style="text-decoration:none; margin: 20px 0 0 20px">
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#86f550;"></div>
+                    <span style="margin-left: 10px; line-height:30px;">Ingresos</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#7efbf9; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Comida</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#ff6384;"></div>
+                    <span style="margin-left: 10px; line-height:30px;">Servicio de Luz, Agua, Basura y Alarmas</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#36a2eb; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Servicio de Internet y Teléfonos</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#ffcd56; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Impuestos</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" class="etiqueta" style="background-color:#efb1dc; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Contador</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#ec6f79; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Departamentos</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#30d9a3; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Seguros</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#fce42e; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Servicio de bomberos y extintores</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#d67932; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Facturación</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#9c4efa; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Prediales</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#fac564; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Diezmo</span>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;">
+                    <div class="etiqueta" style="background-color:#e2d6bf; "></div>
+                    <span style="margin-left: 10px; line-height:30px;">Otro</span>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
+<!--
 <div>
     <canvas id="myChart2" width="400px" height="300px"></canvas>
 </div>
+-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let responses;
@@ -60,14 +149,21 @@
                     'rgb(226, 214, 191)'
                 ],
                 hoverOffset: 4
-            }],
-            labels: etiqueta
+            }]
         }
         const config = {
             type: 'doughnut',
             data: data,
         };
+
+
         new Chart(ctx, config);
+        
+        let lis = document.getElementsByClassName("etiqueta");
+        
+        [].forEach.call(lis, element, index => {
+            element.innerHTML=valor[index]
+        });
         const data2 = {
             labels: etiqueta,
             datasets: [{

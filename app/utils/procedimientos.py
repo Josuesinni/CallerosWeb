@@ -7,10 +7,10 @@ def llamar_procedimiento(nombre_procedimiento:str,parametros):
         cur = get_cursor()
         resu=cur.callproc(nombre_procedimiento, parametros)
         cur.connection.commit()
-        print(resu)
+        #print(resu)
         return True
     except Exception as e:
-        print (e)
+        #print (e)
         return False
 
 def llamar_consulta(nombre_procedimiento: str, parametros):
@@ -18,8 +18,8 @@ def llamar_consulta(nombre_procedimiento: str, parametros):
         cur = get_cursor()
         sentencia=cur.callproc(nombre_procedimiento, parametros)
         resultado=cur.fetchall()
-        print(sentencia)
-        print(resultado)
+        #print(sentencia)
+        #print(resultado)
         return resultado
     except Exception as e:
         print (e)
@@ -30,8 +30,9 @@ def llamar_busqueda(nombre_procedimiento: str, parametros):
         cur = get_cursor()
         sentencia=cur.callproc(nombre_procedimiento, parametros)
         resultado=cur.fetchone()
-        print(sentencia)
-        print(resultado)
+        cur.close()
+        #print(sentencia)
+        #print(resultado)
         return resultado
     except Exception as e:
         print (e)
@@ -42,10 +43,10 @@ def llamar_vistas(nombre_vista:str, parametros:str):
     sentencia="SELECT * FROM "+nombre_vista
     if(parametros):
         sentencia+=" WHERE "+parametros+";"
-    print(sentencia)
+    #print(sentencia)
     cur.execute(sentencia) 
     result = cur.fetchall()
-    print(result)
+    #print(result)
     return result
 
 def llamar_sentencia(sentencia:str,tipo: bool):

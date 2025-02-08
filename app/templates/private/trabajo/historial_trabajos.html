@@ -10,8 +10,12 @@
                 <i class="bi bi-funnel"></i> Filtros
             </button>
             <ul class="dropdown-menu">
+                <li class="dropdown-header">Estado:</li>
                 <li>
-                    <h6 class="dropdown-header">Filtros:</h6>
+                    <div class="form-check form-switch ml-1">
+                        <input type="radio" class="form-check-input" name="estado" id="trabajosTerminados">
+                        <label class="form-check-label" for="trabajosTerminados">Todos</label>
+                    </div>
                 </li>
                 <li>
                     <div class="form-check form-switch ml-1">
@@ -34,6 +38,7 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
+                <li class="dropdown-header">Pagado:</li>
                 <li>
                     <div class="form-check form-switch ml-1">
                         <input type="radio" class="form-check-input" name="pago" id="trabajosPagados">
@@ -48,12 +53,67 @@
                 </li>
             </ul>
             <label for="">Ingreso</label>
-            <input type="date" name="" id="">
+            <input type="date" name="" id="" class="">
             <label for="">Salida</label>
             <input type="date" name="" id="">
-
         </div>
-
+    </section>
+    <section style="display: flex; margin-bottom:30px;">
+        <section style="margin-right:40px;">
+            <p style="margin-bottom:20px;">Estado del Pago</p>
+            <ul style=" list-style-type: none; margin: 0; padding: 0; overflow: hidden;">
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(20, 193, 92); border-radius: 50%;'></span>
+                    <p> Pagado</p>
+                </li>
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(254, 186, 60); border-radius: 50%;'></span>
+                    <p> Incompleto</p>
+                </li>
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(250, 42, 42); border-radius: 50%;'></span>
+                    <p> Sin pagar</p>
+                </li>
+            </ul>
+        </section>
+        <section style="margin-right:40px;">
+            <p style="margin-bottom:20px;">Estado del Trabajo</p>
+            <ul style=" list-style-type: none; margin: 0; padding: 0; overflow: hidden;">
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(20, 193, 92); border-radius: 50%;'></span>
+                    <p> Terminado</p>
+                </li>
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(254, 186, 60); border-radius: 50%;'></span>
+                    <p> En progreso</p>
+                </li>
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(250, 42, 42); border-radius: 50%;'></span>
+                    <p> Sin iniciar</p>
+                </li>
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(45, 6, 6); border-radius: 50%;'></span>
+                    <p> Cancelado</p>
+                </li>
+            </ul>
+        </section>
+        <section style="margin-right:40px;">
+            <p style="margin-bottom:20px;">Estado de la Entrega</p>
+            <ul style=" list-style-type: none; margin: 0; padding: 0; overflow: hidden;">
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(20, 193, 92); border-radius: 50%;'></span>
+                    <p> Entregado</p>
+                </li>
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(254, 186, 60); border-radius: 50%;'></span>
+                    <p> Sin entregar</p>
+                </li>
+                <li style="float: left; display:flex; margin-left:10px;">
+                    <span style='height: 24px; width: 24px; background-color: rgb(250, 42, 42); border-radius: 50%;'></span>
+                    <p> Olvidado</p>
+                </li>
+            </ul>
+        </section>
     </section>
     <section class="table-responsive">
         <table class="table">
@@ -63,12 +123,14 @@
                 <th style="width: 10%;">Teléfono</th>
                 <th style="width: 10%;">Auto</th>
                 <th style="width: 20%;">Descripción</th>
-                <th style="width: 10%;">Fecha Ingreso</th>
-                <th style="width: 10%;">Fecha Salida</th>
+                <th style="width: 10%;">Ingreso</th>
+                <th style="width: 10%;">Salida</th>
                 <th style="width: 5%;">Total</th>
                 <th style="width: 5%;">Restante</th>
                 <th style="width: 5%;">Pagado</th>
                 <th style="width: 5%;">Estatus</th>
+                <th style="width: 5%;">Entrega</th>
+                <th style="width: 5%;">Acción</th>
             </thead>
             <tbody id="tbody">
             </tbody>
@@ -87,8 +149,8 @@
         let respuesta = await fetch(url);
         let datos = await respuesta.json();
         datos.forEach(dato => {
-            dato[5]=dato[5].slice(0,10);
-            dato[6]=(dato[6]!=null)?dato[6].slice(0,10):'';
+            dato[5] = dato[5].slice(0, 10);
+            dato[6] = (dato[6] != null) ? dato[6].slice(0, 10) : '';
         });
         return datos;
     }
@@ -98,16 +160,45 @@
         let final = inicio + registrosPorPagina;
         const registrosActuales = registros.slice(inicio, final);
         let contenidoTabla = '';
-        registrosActuales.forEach(row => {
+        registrosActuales.forEach((row, index) => {
             let filas = '';
-            for (i in row) {
-                if(row[i]==null){
-                    filas += `<td></td>`
-                }else{
-                    filas += `<td>${row[i]}</td>`
+            row.forEach((element, index) => {
+                if (index == 9) {
+                    switch (element) {
+                        case 'Pagado':
+                            filas += `<td><div style='height: 24px; width: 24px; background-color: rgb(20, 193, 92); border-radius: 50%;'></div> </td>`
+                            break;
+                        case 'Sin pagar':
+                            filas += `<td><div style='height: 24px; width: 24px; background-color: rgb(250, 42, 42); border-radius: 50%;'></div> </td>`
+                            break;
+                        case 'Incompleto':
+                            filas += `<td><div style='height: 24px; width: 24px; background-color: rgb(254, 186, 60); border-radius: 50%;'></div> </td>`
+                            break;
+                    }
+                } else if (index == 10) {
+                    switch (element) {
+                        case 'Terminado':
+                            filas += `<td><div style='height: 24px; width: 24px; background-color: rgb(20, 193, 92); border-radius: 50%;'></div> </td>`
+                            break;
+                        case 'Sin iniciar':
+                            filas += `<td><div style='height: 24px; width: 24px; background-color: rgb(250, 42, 42); border-radius: 50%;'></div> </td>`
+                            break;
+                        case 'En progreso':
+                            filas += `<td><div style='height: 24px; width: 24px; background-color: rgb(254, 186, 60); border-radius: 50%;'></div> </td>`
+                            break;
+                    }
+                    filas += `<td><div style='height: 24px; width: 24px; background-color: rgb(254, 186, 60); border-radius: 50%;'></div></td>`
+                    filas += `<td><button class="btn btn-success" style='border-radius: 50%;'><i class="bi bi-pencil"></i></button></td>`
+                } else {
+                    if (element == null) {
+                        filas += `<td></td>`
+                    } else {
+                        filas += `<td>${element}</td>`
+                    }
                 }
-            };
-            contenidoTabla +=`<tr>${filas}</tr>`;
+                
+            })
+            contenidoTabla += `<tr>${filas}</tr>`;
         });
         tbody.innerHTML = contenidoTabla;
     }

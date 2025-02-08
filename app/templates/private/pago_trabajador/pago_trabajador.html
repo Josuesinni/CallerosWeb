@@ -1,7 +1,10 @@
 {% extends 'master/base.html'%}
 {% block title %} {{titulo}} {% endblock %}
+{%block cabecera%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.js"></script>
+{%endblock%}
 {% block contenido %}
-<div class="container-fluid">
     <div class="form-group">
         <label for="empleados">Selecciona un empleado para realizar el pago:</label>
         <select name="empleados" id="empleados" class="form-select">
@@ -10,40 +13,88 @@
             {%endfor%}
         </select>
     </div>
-    <button class="btn btn-success" id="exportar">Exportar</button>
     <div class="table-responsive py-4" id="div_tabla">
         <table class="table" id="tabla-pagos">
             <thead>
                 <tr>
                     <th scope="col">Fecha</th>
                     <th scope="col">Auto o pieza</th>
-                    <th scope="col">Descripción del trabajo realizado</th>
+                    <th scope="col">Descripción del trabajo</th>
                     <th scope="col">Dueño del carro</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Pago Anterior</th>
                     <th scope="col">Pago</th>
+                    <th scope="col">Final</th>
                 </tr>
             </thead>
             <tbody id="tbody">
-                
+
             </tbody>
             <tfoot>
-                <th scope="row">Total</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><div class="input-group"><span class="input-group-text">$</span><input class="form-control" name="total_pago" id="total_pago" readonly></div></td>
+                <th scope="row" colspan="6">Total</th>
+                <td>
+                    <div class="input-group"><span class="input-group-text">$</span><input class="form-control"
+                            name="total_pago" id="total_pago" readonly></div>
+                </td>
             </tfoot>
         </table>
     </div>
     <div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoPago" id="btnRealizarPago">Realizar Pago</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoPago">Registro de Pagos</button>
-    
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoPago"
+            id="btnRealizarPago">Realizar Pago</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoPagos">Registro de
+            Pagos</button>
+        <button class="btn btn-danger" onclick="generatePDF()"><i class="bi bi-filetype-pdf"></i> <span>Exportar</span></button>
     </div>
-</div>
 {%include 'private/pago_trabajador/realizar_pago.html'%}
+{%include 'private/pago_trabajador/nominas.html'%}
 {%endblock%}
 {%block scripts%}
 <script src="{{url_for('static', filename='js/scripts/pago_trabajador/pago_trabajador.js')}}"></script>
+<script>
+
+    function getData() {
+        const table = document.querySelector("#tbody");
+        let data = [];
+        const lista_pagos = Array.from(document.querySelectorAll('.pago-trabajador')).map(input => input.value);
+        const lista_prestamos = Array.from(document.querySelectorAll('.pago-prestamo')).map(input => input.value);
+        Array.from(table.rows).forEach((row, rowIndex) => {
+            data[rowIndex] = []
+            Array.from(row.cells).forEach((cell, cellIndex) => {
+                if (cellIndex < 4) {
+                    console.log(`Row ${rowIndex + 1}, Cell ${cellIndex + 1}: ${cell.textContent}`);
+                    data[rowIndex][cellIndex] = cell.textContent;
+                }
+            });
+        });
+        for (let pago in lista_pagos) {
+            data[pago][4] = "$" + parseFloat(lista_pagos[pago] != '' ? lista_pagos[pago] : '0');
+        }
+        for (let prestamo in lista_prestamos) {
+            data[lista_pagos.length + parseInt(prestamo)][4] = "$" + parseFloat(lista_prestamos[prestamo] != '' ? lista_prestamos[prestamo] : '0');
+        }
+        return data;
+    }
+
+    function generatePDF() {
+        const tabla = getData();
+        console.log(tabla);
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'pt', 'letter');
+        let clave_trabajador = $("#empleados option:selected").text()
+        const today = new Date();
+        doc.text("Nomina", 250, 60);
+        doc.setFontSize(12);
+        let fecha=today.getUTCFullYear() + "-" + today.getUTCMonth() + "-" + today.getUTCDate();
+        doc.text(440, 50, "Fecha: " + fecha);
+        doc.text(40, 100, "Nombre del trabajador: " + clave_trabajador);
+        doc.text(440,100,"Total: $"+document.querySelector("#total_pago").value);
+        doc.autoTable({
+            startY: 140,
+            head: [['Fecha', 'Auto o pieza', 'Descripción del trabajo realizado', 'Dueño del carro', 'Total']],
+            body: tabla
+        })
+        doc.save(clave_trabajador+"_"+(fecha.replace("-","_"))+".pdf")
+    }
+</script>
 {%endblock%}

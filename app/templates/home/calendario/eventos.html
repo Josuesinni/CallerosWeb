@@ -4,7 +4,8 @@
         <div class="d-flex fs-5 justify-center">
             <button class="end-0" @click="--dia;setFechaSeleccionada(dia)"> <i class="bi bi-caret-left date-left"></i>
             </button>
-            <p x-text="getFecha()"></p>
+             <!--<p x-text="getFecha()"></p>-->
+            <input type="date" name="" id="fechaSeleccionada" x-model="getFecha()" x-on:change.debounce="setFechaCalendario($event)" style="text-align: center;">
             <button class="end-0" @click="++dia;setFechaSeleccionada(dia)"> <i class="bi bi-caret-right date-right"></i>
             </button>
         </div>

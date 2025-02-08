@@ -1,0 +1,59 @@
+
+
+<div class="modal fade" id="infoPagos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="infoPagoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="infoPagoLabel">Historial de Pagos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group pb-2">
+                    <label for="empleados" class="form-label">Selecciona un empleado:</label>
+                    <select name="empleados" id="empleados" class="form-select">
+                        {% for trabajador in trabajadores%}
+                        <option value="{{trabajador[0]}}">{{trabajador[1]}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <table>
+                    <tr>
+                        <td style="width: 50%;">
+                            <div class="form-group pb-2">
+                                <label for="buscar" class="form-label">Buscar</label>
+                                <input type="search" name="buscar" id="buscar" class="form-control">
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div class="form-group pb-2">
+                                <label for="semana" class="form-label">Semana</label>
+                                <select name="semana" id="semana" class="form-select">
+                                    <option value="">Todas</option>
+                                    <option value="">Semana del 27 de enero a 1 de febrero</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Auto o pieza</th>
+                            <th>Descripción del trabajo realizado</th>
+                            <th>Dueño del carro</th>
+                            <th>Pago</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

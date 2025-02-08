@@ -42,9 +42,9 @@
                             <div style="width: 14.28%; height: 14vh" 
                                 class="px-4 pt-2 border-r border-b relative cursor-pointer hover:bg-gray-200"
                                 :class="{'bg-gray-300': getSelectedDate(date)==true}" 
-                                @click="day_month=date;selectedDate(day_month)">
+                                @click="day_month=date;selectedDate(day_month); #selectTipo">
 
-                                <div @click="showEventModal(date)" x-text="date"
+                                <div x-text="date"
                                     class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full"
                                     :class="{'bg-blue-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-blue-200': isToday(date) == false }">
                                 </div>
@@ -72,6 +72,7 @@
     </div>
     {% include 'public/eventos.html' %}
 </div>
+
 
 {% include 'public/add_cita.html' %}
 {% include 'public/info_cita.html' %}
