@@ -2,6 +2,7 @@
 $(document).on("click", ".update-trabajador", function () {
     var idCita = $(this).data('id');
     fetch('/api/trabajador/info_trabajador?id=' + idCita).then(response => response.json()).then(data => {
+        $(".modal-body #id-t-u").val(data[0]);
         $(".modal-body #nombre-t-u").val(data[1]);
         $(".modal-body #ap-pat-t-u").val(data[2]);
         $(".modal-body #ap-mat-t-u").val(data[3]);
@@ -10,6 +11,8 @@ $(document).on("click", ".update-trabajador", function () {
 });
 $(document).on("click", ".delete-trabajador", function () {
     var idCita = $(this).data('id');
+    console.log(idCita)
+    $("#id-t-d").val(Number(idCita));
 });
 $("#buscar-trabajador").on("keyup", function () {
     var value = $(this).val().toLowerCase();

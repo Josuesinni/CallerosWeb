@@ -38,6 +38,29 @@ def add_trabajador():
         status = insertar_trabajador([nombre,ap_pat,ap_mat,int(rol),int(nomina)])
         return redirect("/trabajadores")
 
+@trabajadores_bp.route("/api/trabajador/update",methods=["POST"])
+def update_trabajador():
+    if request.method == 'POST':
+        id = request.form['id-t-u']
+        nombre = request.form['nombre-t-u']
+        ap_pat = request.form['ap-pat-t-u']
+        ap_mat = request.form['ap-mat-t-u']
+        rol = request.form['rol-t-u']
+        nomina = request.form['ganancia-t-u']
+        procedimientos.llamar_procedimiento('sp_actualizarTrabajador',[id,nombre,ap_pat,ap_mat,int(rol),int(nomina)])
+    return redirect(url_for('trabajadores.trabajadores'))
+
+@trabajadores_bp.route("/api/trabajador/delete",methods=["POST"])
+def delete_trabajador():
+    if request.method == 'POST':
+        id = request.form.get('id-t-d')
+        id2 = request.form['id-t-d']
+        
+        print(id,id2)
+        procedimientos.llamar_procedimiento('sp_bajaTrabajador',[id])
+    return redirect(url_for('trabajadores.trabajadores'))
+
+
 @trabajadores_bp.route("/api/data/trabajadores")
 def tabla_trabajadores():
     resultados=procedimientos.llamar_vistas("trabajadores",None)

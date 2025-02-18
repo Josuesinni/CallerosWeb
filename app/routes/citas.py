@@ -67,18 +67,14 @@ def update_cita():
             print(errors)
         return render_template_modal("public/index.html",form_u_cita=form_u_cita)
 
-@citas_bp.route("/api/cita/delete",  methods=["POST"])
+@citas_bp.route("/api/cita/delete",  methods=["GET","POST"])
 def delete_cita():
     ajax = '_ajax' in request.form
-    form_u_cita=form_delete_cita()
+    form_u_cita=form_update_cita()
     if request.method == 'POST':
-        if form_u_cita.validate_on_submit():
-            id_cita = form_u_cita.id_cita_u.data
-            procedimientos.llamar_procedimiento("sp_bajaCita",[id_cita])
-        else:
-            errors = form_u_cita.errors
-            print(errors)
-        return render_template_modal("public/index.html",form_u_cita=form_u_cita)
+        id_cita = form_u_cita.id_cita_u.data
+        procedimientos.llamar_procedimiento("sp_bajaCita",[id_cita])
+        return redirect("/")
 
 @citas_bp.route("/api/cita/agendar_cita",  methods=["POST"])
 def agendar_cita():

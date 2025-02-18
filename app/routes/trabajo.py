@@ -36,12 +36,15 @@ def add_trabajo():
         if form_a_trabajo.validate_on_submit():
             nombre = request.form.get('nombre_cliente_trabajo_a')
             telefono=form_a_trabajo.telefono_cliente_trabajo_a.data
+            telefono2=request.form.get('telefono_adicional')
+            pago=form_a_trabajo.pago_trabajo_a.data
             datos_auto=form_a_trabajo.datos_auto_trabajo_a.data
             descripcion_trabajo=form_a_trabajo.descripcion_trabajo_a.data
             fecha=form_a_trabajo.fecha_trabajo_a.data
             if ajax:
                 return '' 
-            procedimientos.llamar_procedimiento("sp_agregarTrabajo",[nombre, telefono, datos_auto, descripcion_trabajo, fecha])
+            print(nombre, telefono, datos_auto, descripcion_trabajo, fecha,pago)
+            procedimientos.llamar_procedimiento("sp_agregarTrabajo",[nombre, telefono, datos_auto, descripcion_trabajo, fecha, pago])
             return redirect ("/")
         else:
             errors = form_a_trabajo.errors

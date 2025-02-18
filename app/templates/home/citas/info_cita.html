@@ -6,6 +6,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <form action="/api/cita/delete" method="POST">
+                    {{form_u_cita.id_cita_u}}
+                    <button type="submit" class="btn btn-danger">Borrar</button>
+                </form>
                 <form action="api/cita/update" method="post" id="updateCita">
                     {{ form_u_cita.csrf_token }}
                     {{form_u_cita.id_cita_u}}
