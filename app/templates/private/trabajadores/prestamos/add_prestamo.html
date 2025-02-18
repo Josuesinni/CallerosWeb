@@ -1,4 +1,5 @@
-<div class="modal fade" id="addPrestamo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addPrestamoLabel" aria-hidden="true">
+<div class="modal fade" id="addPrestamo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addPrestamoLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,12 +9,18 @@
             <div class="modal-body">
                 <form action="/api/prestamo/add" method="post" id="registrarPrestamo">
                     <input type="text" hidden>
-                    <label for="prestamo_nombre_trabajador" class="form-label">Nombre del trabajador:</label>
-                    <select name="prestamo_nombre_trabajador" id="prestamo_nombre_trabajador" class="form-select">
-                        {%for trabajador in trabajadores%}
-                        <option value="{{trabajador[0]}}">{{trabajador[1]}}</option>
-                        {%endfor%}
-                    </select>
+                    <div class="form-group">
+                        <label for="fecha_prestamo" class="form-label">Fecha;</label>
+                        <input type="date" class="form-control" id="fecha_prestamo" name="fecha_prestamo">
+                    </div>
+                    <div class="form-group py-2">
+                        <label for="prestamo_nombre_trabajador" class="form-label">Nombre del trabajador:</label>
+                        <select name="prestamo_nombre_trabajador" id="prestamo_nombre_trabajador" class="form-select">
+                            {%for trabajador in trabajadores%}
+                            <option value="{{trabajador[0]}}">{{trabajador[1]}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
                     <div class="form-group py-2">
                         <label for="prestamo_monto" class="form-label">Monto:</label>
                         <input type="text" id="prestamo_monto" name="prestamo_monto" class="form-control">
@@ -30,7 +37,11 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
-        </form>
+            </form>
         </div>
     </div>
 </div>
+<script>
+    const inputFecha = document.getElementById('fecha_prestamo');
+    inputFecha.dateValue = new Date();
+</script>

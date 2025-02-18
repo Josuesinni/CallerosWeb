@@ -7,10 +7,10 @@ def llamar_procedimiento(nombre_procedimiento:str,parametros):
         cur = get_cursor()
         resu=cur.callproc(nombre_procedimiento, parametros)
         cur.connection.commit()
-        #print(resu)
+        print(resu)
         return True
     except Exception as e:
-        #print (e)
+        print (e)
         return False
 
 def llamar_consulta(nombre_procedimiento: str, parametros):

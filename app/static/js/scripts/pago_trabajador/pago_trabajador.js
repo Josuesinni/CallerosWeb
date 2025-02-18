@@ -169,8 +169,9 @@ function loadData() {
     //sendData(pagos_por_trabajos, prestamos)
     let clave_trabajador = $("#empleados option:selected").val();
     let total = $("#total_pagar").val();
+    let tipo_pago = $("#metodo_pago").val();
     let data = {
-        clave_trabajador, total, pagos_por_trabajos, prestamos
+        clave_trabajador, total, pagos_por_trabajos, prestamos, tipo_pago
     }
     return data;
 }

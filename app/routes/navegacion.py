@@ -34,7 +34,7 @@ def logout():
     return redirect(url_for('navegacion.login'))
 
 
-@navegacion_bp.route("/")
+@navegacion_bp.route("/", methods=['GET','POST'])
 def home():
     if not current_user.is_authenticated:
         return redirect("/login")

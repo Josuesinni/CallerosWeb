@@ -59,7 +59,7 @@ function clearDatosTrabajo(){
     }
     if (total != null) {
         $("#total_pagar_trabajo_cliente").text("$" + total);
-        document.getElementById("monto_pago_cliente").max = total;
+        //document.getElementById("monto_pago_cliente").max = total;
         $("#monto_pago_cliente").attr("readonly", false);
         controladorMonto(total);
     }else{
@@ -87,7 +87,7 @@ function cargar_informacion_trabajo() {
         let total=datos_trabajo[id_cliente].restante;
         if (total != null) {
             $("#total_pagar_trabajo_cliente").text("$" + total);
-            document.getElementById("monto_pago_cliente").max = total;
+            //document.getElementById("monto_pago_cliente").max = total;
             $("#monto_pago_cliente").attr("readonly", false);
             controladorMonto(total);
         }else{

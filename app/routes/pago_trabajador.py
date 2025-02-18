@@ -28,9 +28,10 @@ def app_pago():
         print(request.json)
         id_trabajador=datos['clave_trabajador']
         total = datos['total']
+        tipo_pago = datos['tipo_pago']
         fecha = date.today()
         print(id_trabajador,total,fecha)
-        procedimientos.llamar_procedimiento("sp_agregarPagoTrabajador",[id_trabajador,total,fecha])
+        procedimientos.llamar_procedimiento("sp_agregarPagoTrabajador",[id_trabajador,total,fecha,tipo_pago])
         folio = procedimientos.llamar_sentencia("SELECT LAST_INSERT_ID()",False)
         pagos=datos['pagos_por_trabajos']
         for pago in pagos:

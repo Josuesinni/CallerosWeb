@@ -3,7 +3,7 @@ import json
 from app.forms.trabajo_form import form_add_trabajo, form_update_trabajo
 from flask_modals import render_template_modal
 from app.utils import procedimientos
-
+from datetime import datetime, date
 @trabajo_bp.route("/trabajos",  methods=["GET", "POST"])
 def historial_trabajos():
     trabajos=procedimientos.llamar_vistas("trabajos", None)
@@ -74,6 +74,36 @@ def update_trabajo():
             print(errors)
         return render_template_modal("public/index.html",form_u_trabajo=form_u_trabajo)
 
+@trabajo_bp.route("/api/trabajo/add_responsable_trabajo",  methods=["GET", "POST"])
+def add_responsable_trabajo():
+    fecha = request.form.get('fecha_ing_responsable')
+    responsable = request.form.get('responsables_trabajo')
+    trabajo = request.form.get('id_trabajo')
+    print("Trabajo",trabajo)
+    if(trabajo=='' or trabajo is None):
+        print("Esta vacio?")
+        trabajo = procedimientos.llamar_sentencia("SELECT max(idTrabajo)+1 from trabajo",False)
+    procedimientos.llamar_procedimiento("sp_agregarResponsableTrabajo",[int(responsable),int(trabajo[0]),datetime.strptime(fecha,"%Y-%m-%d")])
+    return jsonify({'status':'Ok'})
+
+"""
+DECLARE existe int default (select count(*) FROM `bd_calleros_tapiceria`.`responsable_trabajo`
+WHERE `idTrabajador`=idTrabajador AND `idTrabajo`=idTrabajo AND `fecha`=fecha);
+if existe = 0 then
+	INSERT INTO `bd_calleros_tapiceria`.`responsable_trabajo`
+	(`idTrabajador`, `idTrabajo`, `fecha`)
+	VALUES (idTrabajador,idTrabajo,fecha);
+end if;
+"""
+
+@trabajo_bp.route("/api/trabajo/delete_responsable_trabajo",  methods=["GET", "POST"])
+def remover_responsable_trabajo():
+    registro = request.form.get('id_registro')
+    responsable = request.form.get('id_trabajador')
+    procedimientos.llamar_procedimiento("sp_bajaResponsableTrabajo",[registro,responsable])
+    return jsonify({'status':'Ok'})
+
+
 @trabajo_bp.route("/api/trabajo/update_status",  methods=["GET", "POST"])
 def finalizar_trabajo():
     return ''
@@ -85,6 +115,13 @@ def get_trabajo():
     responsables=procedimientos.llamar_consulta("sp_buscarResponsablesTrabajo",[int(id)])
     print(responsables)
     return jsonify({'datos_trabajo':resultado,'datos_responsable':responsables})
+
+@trabajo_bp.route("/api/trabajo/get_responsables", methods=["GET","POST"])
+def get_responsables():
+    id = request.args.get('id', type=int)
+    responsables=procedimientos.llamar_consulta("sp_buscarResponsablesTrabajo",[int(id)])
+    return jsonify({'responsables':responsables})
+
 
 @trabajo_bp.route("/api/trabajo/trabajos_cliente",  methods=["GET", "POST"])
 def get_trabajos_clientes():

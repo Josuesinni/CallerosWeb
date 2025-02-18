@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formato de Fecha</title>
+    <style>
+        /* Ocultamos el input de tipo date */
+        #fecha {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* Estilos para el span que simula el input */
+        #fecha-span {
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #fecha-span:hover {
+            background-color: #e9e9e9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <label for="fecha">Selecciona una fecha:</label>
+    <input type="date" id="fecha">
+
+    <p>📅 Fecha seleccionada: <span id="fecha-span">Haz clic para seleccionar</span></p>
+
+    <script>
+        const inputFecha = document.getElementById('fecha');
+        const spanFecha = document.getElementById('fecha-span');
+
+        // Función para formatear la fecha
+        function formatearFecha(fecha) {
+            const opciones = { weekday: 'long', year: '2-digit', month: 'long', day: 'numeric' };
+            return fecha.toLocaleDateString('es-ES', opciones);
+        }
+
+        // Al hacer clic en el span, se abre el calendario
+        spanFecha.addEventListener('click', () => {
+            inputFecha.focus(); // Redirige el foco al input oculto
+            inputFecha.showPicker?.(); // Muestra el selector en navegadores compatibles (Chrome, Edge, Android)
+        });
+
+        // Cuando el usuario elige una fecha, actualiza el span con el formato deseado
+        inputFecha.addEventListener('change', () => {
+            if (inputFecha.value) {
+                const fecha = new Date(inputFecha.value);
+                spanFecha.textContent = formatearFecha(fecha);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

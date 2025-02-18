@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Date Formato dd/MM/yy</title>
+    <style>
+        /* Ocultamos el input de tipo date */
+        #fecha {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* Estilos para el campo de texto */
+        #fecha-texto {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            width: 120px;
+        }
+
+        #fecha-texto:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <label for="fecha-texto">Selecciona una fecha:</label>
+    <input type="text" id="fecha-texto" placeholder="dd/MM/yy" readonly>
+    <input type="date" id="fecha">
+
+    <script>
+        const inputFecha = document.getElementById('fecha');
+        const inputTexto = document.getElementById('fecha-texto');
+
+        // Formatea la fecha a dd/MM/yy
+        function formatearFecha(fecha) {
+            const dia = String(fecha.getDate()).padStart(2, '0');
+            const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Mes comienza en 0
+            const año = String(fecha.getFullYear()).slice(-2); // Tomamos solo los últimos 2 dígitos del año
+            return `${dia}/${mes}/${año}`;
+        }
+
+        // Cuando el usuario selecciona una fecha, actualizamos el input de texto
+        inputFecha.addEventListener('change', () => {
+            if (inputFecha.value) {
+                const fecha = new Date(inputFecha.value);
+                inputTexto.value = formatearFecha(fecha);
+            }
+        });
+
+        // Al hacer clic en el input de texto, abrimos el input de tipo date
+        inputTexto.addEventListener('click', () => {
+            inputFecha.focus(); // Mueve el foco al input date
+            inputFecha.showPicker?.(); // Abre el selector en navegadores compatibles
+        });
+    </script>
+
+</body>
+
+</html>

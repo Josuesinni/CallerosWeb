@@ -15,7 +15,7 @@ def get_efectivo():
 @dashboard_bp.route("/api/data/tarjeta")
 def get_tarjeta():
     cur = get_cursor()
-    cur.execute("""SELECT ifnull(sum(monto),0.00) from pago_cliente where tipo=1""")
+    cur.execute("""SELECT get_tarjeta()""")
     result = cur.fetchall()
     return jsonify(result)
 

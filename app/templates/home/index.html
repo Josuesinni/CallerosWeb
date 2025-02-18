@@ -10,4 +10,36 @@
 {% include 'home/calendario/calendario.html'%}
 {% endblock %}
 {%block scripts%}
+<script>
+    const inFecha = document.querySelector("#fechaSeleccionada");
+    inFecha.value = new Date().toISOString().substring("0", "10");
+</script>
+<script>
+    $(document).ready(function () {
+        const inputFecha = document.getElementById('fechaSeleccionada');
+        const spanFecha = document.getElementById('fecha-span');
+        const fecha_inicio = new Date().toISOString();
+        const todayFormatted = new Date(fecha_inicio.substring(0, 4), fecha_inicio.substring(5, 7), fecha_inicio.substring(8, 10), 0, 0, 0, 0);
+        inputFecha.value = todayFormatted;
+        console.log(todayFormatted)
+        spanFecha.textContent = formatearFecha(new Date());
+        function formatearFecha(fecha) {
+            console.log(fecha)
+            const opciones = { weekday: 'long', year: '2-digit', month: 'long', day: 'numeric' };
+            return fecha.toLocaleDateString('es-ES', opciones);
+        }
+
+        spanFecha.addEventListener('click', () => {
+            inputFecha.focus();
+            inputFecha.showPicker?.();
+        });
+        $("#fechaSeleccionada").on("change", function () {
+            if (inputFecha.value) {
+                console.log(inputFecha.value);
+                const fecha = new Date(inputFecha.value.substring(0, 4), inputFecha.value.substring(5, 7)-1, inputFecha.value.substring(8, 10), 0, 0, 0);
+                spanFecha.textContent = formatearFecha(fecha);
+            }
+        });
+    });
+</script>
 {%endblock%}

@@ -1,5 +1,6 @@
-<div class="modal fade" id="addTrabajo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addTrabajoLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="addTrabajo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addTrabajoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addTrabajoLabel">Añadir Trabajo</h1>
@@ -9,33 +10,117 @@
                 {{modal_messages()}}
                 <form action="/api/trabajo/add" method="post" id="registrarTrabajo">
                     {{form_a_trabajo.csrf_token}}
-                    <div class="form-group py-2" id="form-fecha">
-                        {{form_a_trabajo.fecha_trabajo_a.label(class="form-label")}}
-                        {{form_a_trabajo.fecha_trabajo_a(class="form-control")}}
+                    <div class="row gx-3">
+                        <div class="col-sm-4">
+                            <div class="subtitle">
+                                <p><b>Datos del Cliente</b></p>
+                            </div>
+                            <div class="form-group py-2" id="form-fecha">
+                                {{form_a_trabajo.fecha_trabajo_a.label(class="form-label")}}
+                                {{form_a_trabajo.fecha_trabajo_a(class="form-control")}}
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="nombre_cliente_trabajo_a" class="form-label">Nombre del Cliente:</label>
+                                <select class="form-select" name="nombre_cliente_trabajo_a"
+                                    id="nombre_cliente_trabajo_a"></select>
+                            </div>
+                            <div class="form-group py-2">
+                                {{form_a_trabajo.telefono_cliente_trabajo_a.label(class="form-label")}}
+                                {{form_a_trabajo.telefono_cliente_trabajo_a(class="form-control")}}
+                            </div>
+                            <div class="form-group py-2" id="telefono_adicional">
+                                <label for="telefono_adicional" class="form-label">Teléfono 2 (opcional): </label>
+                                <input type="number" class="form-control" id="telefono_adicional"
+                                    name="telefono_adicional">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="subtitle">
+                                <p><b>Datos del Trabajo</b></p>
+                            </div>
+                            <div class="form-group py-2">
+                                {{form_a_trabajo.datos_auto_trabajo_a.label(class="form-label")}}
+                                {{form_a_trabajo.datos_auto_trabajo_a(class="form-control")}}
+                            </div>
+                            <div class="form-group py-2">
+                                {{form_a_trabajo.descripcion_trabajo_a.label(class="form-label")}}
+                                {{form_a_trabajo.descripcion_trabajo_a(class="form-control")}}
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="responsables_trabajo_a" class="form-label">Responsables:</label>
+                                <button type="button" class="btn btn-dark" data-bs-toggle="modal"
+                                    data-bs-target="#infoTrabajadores">
+                                    <i class="bi bi-person"></i>
+                                    <span>Agregar Responsables</span>
+                                </button>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="responsables_trabajo_a" class="form-label">Materiales:</label>
+                                <button type="button" class="btn btn-dark">
+                                    <i class="bi bi-box"></i>
+                                    <span>Agregar materiales</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="subtitle">
+                                <p><b>Datos del Pago</b></p>
+                            </div>
+                            <div class="form-group py-2">
+                                {{form_a_trabajo.pago_trabajo_a.label(class="form-label")}}
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{form_a_trabajo.pago_trabajo_a(class="form-control")}}
+                                </div>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="is_facturado" class="form-label">¿Requiere factura?</label>
+                                <select name="is_facturado" id="is_facturado" class="form-select">
+                                    <option value="0">No</option>
+                                    <option value="1">Si</option>
+                                </select>
+                            </div>
+                            <div class="form-group py-2" id="totalidad" hidden="hidden">
+                                <label for="is_totalidad" class="form-label">¿En su totalidad?</label>
+                                <select name="is_totalidad" id="is_totalidad" class="form-select">
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group py-2" id="cantidad" hidden="hidden">
+                                <label for="cantidad_factura" class="form-label">Cantidad</label>
+                                <input type="number" class="form-control" id="cantidad_factura" name="cantidad_factura">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group py-2">
-                        <label for="nombre_cliente_trabajo_a" class="form-label">Nombre del Cliente:</label>
-                        <select class="form-select" name="nombre_cliente_trabajo_a" id="nombre_cliente_trabajo_a"></select>
-                    </div>
-                    <div class="form-group py-2">
-                        {{form_a_trabajo.telefono_cliente_trabajo_a.label(class="form-label")}}
-                        {{form_a_trabajo.telefono_cliente_trabajo_a(class="form-control")}}
-                    </div>
-                    <div class="form-group py-2">
-                        {{form_a_trabajo.datos_auto_trabajo_a.label(class="form-label")}}
-                        {{form_a_trabajo.datos_auto_trabajo_a(class="form-control")}}
-                    </div>
-                    <div class="form-group py-2">
-                        {{form_a_trabajo.descripcion_trabajo_a.label(class="form-label")}}
-                        {{form_a_trabajo.descripcion_trabajo_a(class="form-control")}}
-                    </div>
-                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
-        </form>
+            </form>
         </div>
     </div>
 </div>
+<script>
+    const is_facturado = document.getElementById("is_facturado");
+    const is_totalidad = document.getElementById("is_totalidad");
+
+    const totalidad = document.getElementById("totalidad");
+    const cantidad = document.getElementById("cantidad");
+
+    is_facturado.addEventListener('change', function (event) {
+        if (event.target.value == 0) {
+            totalidad.setAttribute('hidden', true)
+        } else {
+            totalidad.removeAttribute('hidden');
+        }
+    });
+    is_totalidad.addEventListener('change', function (event) {
+        if (event.target.value == 0) {
+            cantidad.removeAttribute('hidden');
+        } else {
+            cantidad.setAttribute('hidden', true)
+        }
+    });
+</script>

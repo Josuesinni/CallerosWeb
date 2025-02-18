@@ -1,4 +1,5 @@
-<div class="container-fluid d-flex shadow" x-data="app_calendar" x-init="[iniciarFecha(), getNoDeDias(), getEventos(mes,anio)]">
+<div class="container-fluid d-flex shadow" x-data="app_calendar"
+    x-init="[iniciarFecha(), getNoDeDias(), getEventos(mes,anio)]">
     <div id="calendario" style="width: 70%;">
         <div class="container mx-auto px-4 py-2 md:py-24">
             <div class="bg-white rounded-lg overflow-hidden">
@@ -11,15 +12,20 @@
                         <button type="button"
                             class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center"
                             @click="mes--; getNoDeDias(), getEventos(mes,anio)">
-                            <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <div class="border-r inline-flex h-6"></div>
-                        <button type="button" class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1"
+                        <button type="button"
+                            class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1"
                             @click="mes++; getNoDeDias(), getEventos(mes,anio)">
-                            <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
                     </div>
@@ -29,20 +35,23 @@
                     <div class="flex flex-wrap">
                         <template x-for="(dia_sem, index) of DIAS" :key="index">
                             <div style="width: 14.28%" class="px-2 py-2 border-t px-4 pt-2">
-                                <div x-text="dia_sem" class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center"></div>
+                                <div x-text="dia_sem"
+                                    class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center"></div>
                             </div>
                         </template>
                     </div>
 
                     <div class="flex flex-wrap border-t border-l">
                         <template x-for="dia_en_blanco in dias_en_blanco">
-                            <div style="width: 14.28%; height: 14vh" class="text-center border-r border-b px-2 pt-2"></div>
+                            <div style="width: 14.28%; height: 14vh" class="text-center border-r border-b px-2 pt-2">
+                            </div>
                         </template>
                         <template x-for="(no_dia, dateIndex) in no_de_dias" :key="dateIndex">
-                            <div style="width: 14.28%; height: 14vh" 
+                            <div style="width: 14.28%; height: 14vh"
                                 class="px-2 pt-2 border-r border-b relative cursor-pointer hover:bg-gray-200"
-                                :class="{'bg-gray-300': getFechaSeleccionada(no_dia)==true}" 
-                                @click="setFechaSeleccionada(no_dia);" data-bs-toggle="modal" data-bs-target="#selectTipo">
+                                :class="{'bg-gray-300': getFechaSeleccionada(no_dia)==true}"
+                                @click="setFechaSeleccionada(no_dia);" data-bs-toggle="modal"
+                                data-bs-target="#selectTipo">
 
                                 <div x-text="no_dia"
                                     class="inline-flex w-6 h-6 items-center justify-center text-center leading-none rounded-full"
@@ -50,12 +59,17 @@
                                 </div>
 
                                 <div style="height: 8vh;" class="overflow-y-auto mt-1">
-                                    <template x-for="evento in eventos.filter(e => new Date(e.fecha).toUTCString()===new Date(Date.UTC(anio, mes, no_dia)).toUTCString())">
+                                    <template
+                                        x-for="evento in eventos.filter(e => new Date(e.fecha).toUTCString()===new Date(Date.UTC(anio, mes, no_dia)).toUTCString())">
                                         <div class="px-2 rounded-lg mt-1 overflow-hidden border" :class="{
                                                 'border-blue-200 text-blue-800 bg-blue-100': evento.tema === 'blue',
                                                 'border-purple-200 text-purple-800 bg-purple-100': evento.tema === 'purple'
                                             }">
-                                            <a data-bs-toggle="modal" :href="evento.tipo === 'cita' ? '#infoCita' : '#infoTrabajo'"  @click="":data-id="evento.id" x-text="evento.nombre_cliente" class="text-sm truncate leading-tight" :class="{'event-cita': evento.tipo == 'cita', 'event-trabajo': evento.tipo != 'cita'}"></a>
+                                            <a data-bs-toggle="modal"
+                                                :href="evento.tipo === 'cita' ? '#infoCita' : '#infoTrabajo'" @click=""
+                                                :data-id="evento.id" x-text="evento.nombre_cliente"
+                                                class="text-sm truncate leading-tight"
+                                                :class="{'event-cita': evento.tipo == 'cita', 'event-trabajo': evento.tipo != 'cita'}"></a>
                                         </div>
                                     </template>
                                 </div>
@@ -68,7 +82,8 @@
     </div>
     {% include 'home/calendario/eventos.html' %}
 </div>
-<div class="modal fade" id="selectTipo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="selectTipoLabel" aria-hidden="true">
+<div class="modal fade" id="selectTipo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="selectTipoLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -77,12 +92,14 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex flex-row p-2" style="margin-top: auto;">
-                    <button class="btn btn-dark m-2 mx-auto p-2" data-bs-toggle="modal" data-bs-target="#addCita" data-bs-dismiss="modal">
+                    <button class="btn btn-dark m-2 mx-auto p-2" data-bs-toggle="modal" data-bs-target="#addCita"
+                        data-bs-dismiss="modal">
                         <i class="bi bi-calendar2-date"></i>
                         <span>Agregar Cita</span>
                     </button>
-            
-                    <button class="btn btn-dark m-2 mx-auto p-2" data-bs-toggle="modal" data-bs-target="#addTrabajo" data-bs-dismiss="modal">
+
+                    <button class="btn btn-dark m-2 mx-auto p-2" data-bs-toggle="modal" data-bs-target="#addTrabajo"
+                        data-bs-dismiss="modal">
                         <i class="bi bi-briefcase"></i>
                         <span>Agregar Trabajo</span>
                     </button>
@@ -96,4 +113,4 @@
 {% include 'home/citas/citas_sin_agendar.html' %}
 {% include 'home/trabajos/add_trabajo.html' %}
 {% include 'home/trabajos/info_trabajo.html' %}
-
+{% include 'home/trabajos/info_trabajadores.html' %}

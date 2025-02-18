@@ -1,4 +1,7 @@
-[x-cloak] { display: none !important; }
+[x-cloak] {
+    display: none !important;
+}
+
 /*Sidebar*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -9,17 +12,18 @@
     padding: 0;
 }
 
-.navbar{
+.navbar {
     background-color: #000000;
 }
 
-.navbar a{
+.navbar a {
     color: white;
 }
 
-.sidebar-footer a{
+.sidebar-footer a {
     text-decoration: none;
 }
+
 .sidebar-nav a {
     text-decoration: none;
 }
@@ -33,7 +37,7 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-#side-cont{
+#side-cont {
     min-height: 100dvh;
     max-height: 100%;
 }
@@ -41,7 +45,7 @@ body {
 #sidebar {
     min-height: 100%;
     height: 100%;
-    align-self: flex-end;  
+    align-self: flex-end;
     width: 70px;
     min-width: 70px;
     z-index: 1000;
@@ -145,38 +149,46 @@ a.sidebar-link:hover {
 }
 
 
-#calendario{
+#calendario {
     width: 70%;
 }
 
-#eventos-calendario{
+#eventos-calendario {
     width: 30%;
 }
 
-td span{
-    border:none !important;
+td span {
+    border: none !important;
     background: none !important;
 }
-td input.pago-trabajador { 
-    border-top:none !important;
-    border-left:none !important;
-    border-right:none !important;
-    box-shadow:none !important;
+
+td input.pago-trabajador {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
     border-bottom: 1px solid #000000 !important;
 }
-td input.pago-prestamo { 
-    border-top:none !important;
-    border-left:none !important;
-    border-right:none !important;
-    box-shadow:none !important;
+
+td input.pago-prestamo {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
     border-bottom: 1px solid #000000 !important;
 }
+
+#descripcion_trabajo_a {
+    height: 1.5em;
+}
+
 /*Teléfono*/
 @media only screen and (max-width: 500px) {
-    #calendario{
+    #calendario {
         display: none;
     }
-    #eventos-calendario{
+
+    #eventos-calendario {
         width: 100%;
     }
 }

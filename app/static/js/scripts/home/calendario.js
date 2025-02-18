@@ -3,6 +3,7 @@ const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', '
 const DIAS = ['D', 'L', 'M', 'MI', 'J', 'V', 'S'];
 
 function calendar_app() {
+    
     return {
         mes: '',
         anio: '',
@@ -16,6 +17,7 @@ function calendar_app() {
         id: '',
         fecha: '',
         nombre_cliente: '',
+        auto: '',
         descripcion: '',
         tipo: '',
         tema: '',
@@ -43,6 +45,7 @@ function calendar_app() {
                         fecha: d[4],
                         nombre_cliente: d[1],
                         descripcion: d[3],
+                        auto: '',
                         tipo: 'cita',
                         tema: 'blue'
                     }
@@ -51,11 +54,13 @@ function calendar_app() {
             });
             await fetch('/api/trabajo/trabajos_agendados?mes=' + mes + '&anio=' + anio).then(response => response.json()).then(data => {
                 for (d of data) {
+                    console.log(d)
                     const ev = {
                         id: d[0],
                         fecha: d[5],
                         nombre_cliente: d[1],
                         descripcion: d[4],
+                        auto: d[3],
                         tipo: 'trabajo',
                         tema: 'purple'
                     }
@@ -84,20 +89,23 @@ function calendar_app() {
         },
         getFecha() {
             return  (this.anio+"-"+((this.mes<10)?0:'')+(this.mes + 1)+ "-"+((this.dia<10)?0:'')+this.dia);
-        },setFechaCalendario(event){
-            let f = new Date(event.target.value);
-            this.dia=f.getUTCDay();
-            if(this.anio!=f.getUTCFullYear() && this.mes!=f.getUTCMonth()){
-                this.anio=f.getUTCFullYear();
-                this.mes=f.getUTCMonth();
-            }else if (this.mes!=f.getUTCMonth() && this.anio==f.getUTCFullYear()){
-                this.mes=f.getUTCMonth();
-            }else if (this.mes==f.getUTCMonth() && this.anio!=f.getUTCFullYear()){
-                this.anio=f.getUTCFullYear();
+        },
+        setFechaCalendario(event){
+            let f = event.target.value;
+            let d=Number(f.substring(8,10));
+            let m=Number(f.substring(5,7))-1;
+            let y=Number(f.substring(0,4));
+            if(this.anio!=y && this.mes!=m){
+                this.anio=y
+                this.mes=m
+            }else if (this.mes!=m && this.anio==y){
+                this.mes=m
+            }else if (this.mes==m && this.anio!=y){
+                this.anio=y
             }
+            this.dia=d;
             this.getNoDeDias();
             this.getEventos(this.mes,this.anio);
-            
             this.setFechaSeleccionada(this.dia);
         },
         getFechaSeleccionada(dia) {
@@ -122,6 +130,8 @@ function calendar_app() {
             let fecha= new Date(this.anio + "-" + (this.mes+1) + "-" + this.dia).toISOString().substring(0,10);
             $("#fecha_cita_a").val(fecha);
             $("#fecha_trabajo_a").val(fecha);
+            $("#fechaSeleccionada").val(fecha);
+            $("#fechaSeleccionada").trigger('change');
             this.addListaEvento(dia);
         },
         isEventos(){
@@ -169,6 +179,7 @@ function calendar_app() {
                         data-bs-toggle='modal' href=${(r.tipo=='cita'?'#infoCita':'#infoTrabajo')}
                         data-id='${r.id}'>
                             <b> ${r.nombre_cliente} </b>
+                            - ${r.auto}
                         </a>
                         <ul>
                             <li class='pl-2'>
