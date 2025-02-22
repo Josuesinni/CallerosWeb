@@ -1,6 +1,6 @@
 <div class="modal fade" id="infoTrabajo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="infoTrabajoLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="infoTrabajoLabel">Información del Trabajo</h1>
@@ -12,7 +12,10 @@
                     {{form_u_trabajo.clave_trabajo_u(class="form-control")}}
                     {{form_u_trabajo.clave_cliente_u(class="form-control")}}
                     <div class="row g-3">
-                        <div class="col-md-6">
+                        <div class="col-sm-4">
+                            <div class="subtitle">
+                                <p><b>Datos del Cliente</b></p>
+                            </div>
                             <div class="form-group py-2" id="form-fecha">
                                 {{form_u_trabajo.fecha_trabajo_u.label(class="form-label")}}
                                 {{form_u_trabajo.fecha_trabajo_u(class="form-control")}}
@@ -20,10 +23,22 @@
                             <div class="form-group py-2">
                                 {{form_u_trabajo.nombre_cliente_trabajo_u.label(class="form-label")}}
                                 {{form_u_trabajo.nombre_cliente_trabajo_u(class="form-control")}}
+                                <input type="checkbox" name="is_actualiza" id="is_actualiza" class="form-check-input">
+                                <label for="is_actualiza" class="form-label">Cambiar nombre</label>
                             </div>
-                            <div class="form-group py-2">
+                            <div class="form-group">
                                 {{form_u_trabajo.telefono_cliente_trabajo_u.label(class="form-label")}}
                                 {{form_u_trabajo.telefono_cliente_trabajo_u(class="form-control")}}
+                            </div>
+                            <div class="form-group py-2" id="telefono_adicional_u">
+                                <label for="telefono_adicional" class="form-label">Teléfono 2 (opcional): </label>
+                                <input type="number" class="form-control" id="telefono_adicional_u"
+                                    name="telefono_adicional_u">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="subtitle">
+                                <p><b>Datos del Trabajo</b></p>
                             </div>
                             <div class="form-group py-2">
                                 {{form_u_trabajo.datos_auto_trabajo_u.label(class="form-label")}}
@@ -32,15 +47,6 @@
                             <div class="form-group py-2">
                                 {{form_u_trabajo.descripcion_trabajo_u.label(class="form-label")}}
                                 {{form_u_trabajo.descripcion_trabajo_u(class="form-control")}}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group py-2">
-                                {{form_u_trabajo.pago_trabajo_u.label(class="form-label")}}
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    {{form_u_trabajo.pago_trabajo_u(class="form-control")}}
-                                </div>
                             </div>
                             <div class="form-group py-2">
                                 <label for="responsables_trabajo_a" class="form-label">Responsables del Trabajo:</label>
@@ -56,6 +62,29 @@
                                     <i class="bi bi-box"></i>
                                     <span>Agregar materiales</span>
                                 </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="subtitle">
+                                <p><b>Datos del Pago</b></p>
+                            </div>
+                            <div class="form-group py-2">
+                                {{form_u_trabajo.pago_trabajo_u.label(class="form-label")}}
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {{form_u_trabajo.pago_trabajo_u(class="form-control")}}
+                                </div>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="is_facturado_u" class="form-label">Facturado</label>
+                                <select name="is_facturado_u" id="is_facturado_u" class="form-select">
+                                    <option value="0">No</option>
+                                    <option value="1">Si</option>
+                                </select>
+                            </div>
+                            <div class="form-group py-2" id="cantidad_u" hidden="hidden">
+                                <label for="cantidad_factura_u" class="form-label">Cantidad</label>
+                                <input type="number" class="form-control" id="cantidad_factura" name="cantidad_factura">
                             </div>
                         </div>
                     </div>

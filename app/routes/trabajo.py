@@ -67,19 +67,19 @@ def update_trabajo():
     if request.method == 'POST':
         if form_u_trabajo.validate_on_submit():
             trabajo = form_u_trabajo.clave_trabajo_u.data
-            cliente = form_u_trabajo.clave_cliente_u.data
-            #cliente = form_u_trabajo.nombre_cliente_trabajo_u.data
-            #telefono = form_u_trabajo.telefono_cliente_trabajo_u.data
+            id_cliente = form_u_trabajo.clave_cliente_u.data
+            nombre_cliente = form_u_trabajo.nombre_cliente_trabajo_u.data
+            telefono_cliente = form_u_trabajo.telefono_cliente_trabajo_u.data
+            telefono_adicional = request.form['telefono_adicional_u']
             datos_auto = form_u_trabajo.datos_auto_trabajo_u.data
             descripcion_trabajo = form_u_trabajo.descripcion_trabajo_u.data
             fecha = form_u_trabajo.fecha_trabajo_u.data
             pago = form_u_trabajo.pago_trabajo_u.data
-            responsables = request.form.getlist('responsables_trabajo_u')
+            if request.form.get('is_actualiza'):
+                procedimientos.llamar_procedimiento("sp_actualizarCliente",[id_cliente, nombre_cliente,telefono_cliente,None])
             if ajax:
                 return ''
-            for trabajador in responsables:
-                procedimientos.llamar_procedimiento("sp_agregarResponsableTrabajo",[trabajador,trabajo,fecha])
-            procedimientos.llamar_procedimiento("sp_actualizarTrabajo",[trabajo,cliente,datos_auto,descripcion_trabajo,fecha,None,pago,None])
+            procedimientos.llamar_procedimiento("sp_actualizarTrabajo",[trabajo,id_cliente,datos_auto,descripcion_trabajo,fecha,None,pago,None])
             return redirect ("/")
         else:
             errors = form_u_trabajo.errors

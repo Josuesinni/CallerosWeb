@@ -35,11 +35,12 @@ def add_cita():
             descripcion=form_a_cita.descripcion_cita_a.data
             agendar_cita=form_a_cita.agendar_cita.data
             fecha=form_a_cita.fecha_cita_a.data
+            telefono_adicional = request.form.get('telefono_adicional_cita')
             if ajax:
                 return ''
             if agendar_cita == '0':
                 fecha=None
-            procedimientos.llamar_procedimiento("sp_agregarCita",[nombre, telefono, descripcion, fecha])
+            procedimientos.llamar_procedimiento("sp_agregarCita",[nombre, telefono, telefono_adicional, descripcion, fecha])
             return redirect ("/")
         else:
             errors = form_a_cita.errors

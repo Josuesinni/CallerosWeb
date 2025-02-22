@@ -17,6 +17,11 @@
                         {{ form_a_cita.telefono_cliente_cita_a.label(class="form-label") }}
                         {{ form_a_cita.telefono_cliente_cita_a(class="form-control",placeholder="Ingresa el télefono del cliente...") }}
                     </div>
+                    <div class="form-group py-2" id="telefono_adicional_cita">
+                        <label for="telefono_adicional_cita" class="form-label">Teléfono 2 (opcional): </label>
+                        <input type="text" class="form-control" id="telefono_adicional_cita"
+                            name="telefono_adicional_cita">
+                    </div>
                     <div class="form-group py-2">
                         {{ form_a_cita.descripcion_cita_a.label(class="form-label") }}
                         {{ form_a_cita.descripcion_cita_a(class="form-control",placeholder="Ingresa la descripción...") }}
