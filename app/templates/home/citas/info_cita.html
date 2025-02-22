@@ -1,4 +1,5 @@
-<div class="modal fade" id="infoCita" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="infoCitaLabel" aria-hidden="true">
+<div class="modal fade" id="infoCita" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="infoCitaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,10 +7,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/api/cita/delete" method="POST">
-                    {{form_u_cita.id_cita_u}}
-                    <button type="submit" class="btn btn-danger">Borrar</button>
-                </form>
+                <div class="d-flex">
+                    <form action="/api/cita/delete" method="POST">
+                        {{form_u_cita.id_cita_u}}
+                        <button type="submit" class="btn btn-danger">Borrar</button>
+                    </form>
+                    <button class="btn btn-dark" data-bs-target="#updateCitaToTrabajo" data-bs-toggle="modal">Agregar a Trabajos</button>
+                </div>
                 <form action="api/cita/update" method="post" id="updateCita">
                     {{ form_u_cita.csrf_token }}
                     {{form_u_cita.id_cita_u}}
@@ -19,7 +23,8 @@
                     </div>
                     <div class="form-group py-2">
                         <label for="nombre-cliente-ic" class="form-label">Nombre del cliente:</label>
-                        <input type="text" id="nombre-cliente-ic" name="nombre-cliente-ic" class="form-control" readonly>
+                        <input type="text" id="nombre-cliente-ic" name="nombre-cliente-ic" class="form-control"
+                            readonly>
                     </div>
                     <div class="form-group py-2">
                         <label for="telefono-ic">Número de teléfono:</label>
@@ -38,7 +43,8 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
-        </form>
+            </form>
         </div>
     </div>
 </div>
+{%include 'home/citas/mover_cita_trabajo.html' %}

@@ -41,10 +41,19 @@ def add_trabajo():
             datos_auto=form_a_trabajo.datos_auto_trabajo_a.data
             descripcion_trabajo=form_a_trabajo.descripcion_trabajo_a.data
             fecha=form_a_trabajo.fecha_trabajo_a.data
+            is_facturado=request.form.get('is_facturado')
+            is_totalidad=request.form.get('is_totalidad')
+            cantidad_factura=request.form.get('cantidad_factura')
+            print(telefono2,is_facturado,is_totalidad,cantidad_factura)
             if ajax:
                 return '' 
             print(nombre, telefono, datos_auto, descripcion_trabajo, fecha,pago)
-            procedimientos.llamar_procedimiento("sp_agregarTrabajo",[nombre, telefono, datos_auto, descripcion_trabajo, fecha, pago])
+            procedimientos.llamar_procedimiento("sp_agregarTrabajo",[nombre, telefono, telefono2, datos_auto, descripcion_trabajo, fecha, pago])
+            if is_facturado == '1':
+                idTrabajo = procedimientos.llamar_sentencia("SELECT LAST_INSERT_ID()",False)
+                total=  (float(pago)*0.16) if (is_totalidad=='1') else (float(cantidad_factura)*0.16)
+                print(idTrabajo[0], 1, total)
+                procedimientos.llamar_procedimiento("sp_agregarFactura",[idTrabajo[0], 1, total])
             return redirect ("/")
         else:
             errors = form_a_trabajo.errors
@@ -79,15 +88,17 @@ def update_trabajo():
 
 @trabajo_bp.route("/api/trabajo/add_responsable_trabajo",  methods=["GET", "POST"])
 def add_responsable_trabajo():
-    fecha = request.form.get('fecha_ing_responsable')
-    responsable = request.form.get('responsables_trabajo')
-    trabajo = request.form.get('id_trabajo')
-    print("Trabajo",trabajo)
-    if(trabajo=='' or trabajo is None):
-        print("Esta vacio?")
-        trabajo = procedimientos.llamar_sentencia("SELECT max(idTrabajo)+1 from trabajo",False)
-    procedimientos.llamar_procedimiento("sp_agregarResponsableTrabajo",[int(responsable),int(trabajo[0]),datetime.strptime(fecha,"%Y-%m-%d")])
-    return jsonify({'status':'Ok'})
+    if request.method == "POST":
+        fecha = request.form['fecha_ing_responsable']
+        responsable = request.form['responsables_trabajo']
+        trabajo = request.form['id_trabajo_trabajadores']
+        print("Trabajo",trabajo)
+        if(trabajo=='' or trabajo is None):
+            print("Esta vacio?")
+            trabajo = procedimientos.llamar_sentencia("SELECT max(idTrabajo)+1 from trabajo",False)[0]
+        print(int(responsable),int(trabajo[0]),datetime.strptime(fecha,"%Y-%m-%d"))
+        resultado=procedimientos.llamar_procedimiento("sp_agregarResponsableTrabajo",[int(responsable),int(trabajo),datetime.strptime(fecha,"%Y-%m-%d")])
+        return jsonify({'status':resultado})
 
 """
 DECLARE existe int default (select count(*) FROM `bd_calleros_tapiceria`.`responsable_trabajo`

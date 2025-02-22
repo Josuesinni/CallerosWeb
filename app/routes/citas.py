@@ -73,9 +73,17 @@ def delete_cita():
     form_u_cita=form_update_cita()
     if request.method == 'POST':
         id_cita = form_u_cita.id_cita_u.data
-        procedimientos.llamar_procedimiento("sp_bajaCita",[id_cita])
-        return redirect("/")
+        estado=procedimientos.llamar_procedimiento("sp_bajaCita",[id_cita])
+        return jsonify({"status":estado})
 
+@citas_bp.route("/api/cita/delete2",  methods=["GET","POST"])
+def delete_cita2():
+    ajax = '_ajax' in request.form
+    if request.method == 'POST':
+        id_cita = request.form['id_cita_add_trabajo']
+        estado=procedimientos.llamar_procedimiento("sp_bajaCita",[id_cita])
+        return jsonify({"status":estado})
+    
 @citas_bp.route("/api/cita/agendar_cita",  methods=["POST"])
 def agendar_cita():
     if request.method == 'POST':

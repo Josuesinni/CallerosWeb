@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table with Filters and Pagination</title>
+    <style>
+        /* Add some basic styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            cursor: pointer;
+        }
+        .pagination {
+            margin-top: 10px;
+        }
+        .pagination button {
+            margin: 0 2px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="filterInput" placeholder="Filter...">
+    <label for="estado">Opciones</label>
+    <select name="estado" id="estado">
+        <option value="0">Activo</option>
+        <option value="1">Inactivo</option>
+    </select>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th id="nombre">Name</th>
+                <th>Age</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be dynamically inserted here -->
+        </tbody>
+    </table>
+    <div class="pagination" id="paginationControls"></div>
+
+    <script src="test.js"></script>
+</body>
+</html>

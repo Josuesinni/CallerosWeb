@@ -32,7 +32,7 @@ $(document).ready(function () {
             $(".modal-body #descripcion_trabajo_u").val(data.datos_trabajo[5]);
             $(".modal-body #datos_auto_trabajo_u").val(data.datos_trabajo[4]);
             $(".modal-body #pago_trabajo_u").val(data.datos_trabajo[8]);
-            $("#id_trabajo").val(data.datos_trabajo[0]);
+            $("#id_trabajo_trabajadores").val(data.datos_trabajo[0]);
             $("#fecha_ing_responsable").val(new Date(data.datos_trabajo[6]).toISOString().substring(0, 10));
             actualizarResponsables();
         })
@@ -64,9 +64,10 @@ $(document).ready(function () {
         });
     });
     $("#formAddResponsable").submit(function (event) {
-        url_form = $(this).data('action');
         event.preventDefault();
+        url_form = $(this).data('action');
         var formData = $(this).serialize();
+        console.log(formData);
         $.ajax({
             type: 'POST',
             url: url_form,
@@ -79,12 +80,18 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
+                console.log(error)
             }
         });
     });
+    
 })
+
+
+
 function actualizarResponsables() {
-    var idTrabajo = $("#id_trabajo").val();
+    var idTrabajo = $("#id_trabajo_trabajadores").val();
+    console.log(idTrabajo)
     fetch('/api/trabajo/get_responsables?id=' + idTrabajo).then(response => response.json()).then(data => {
         const tbody = document.querySelector("#table_responsables_trabajo");
         let selectResponsables = document.querySelector("#responsables_trabajo");

@@ -7,7 +7,7 @@ class form_add_trabajo(FlaskForm):
     datos_auto_trabajo_a = StringField('Auto:', validators=[DataRequired()])
     descripcion_trabajo_a = TextAreaField('Descripción:', validators=[DataRequired()])
     fecha_trabajo_a = DateField('Fecha de Ingreso:',validators=[Optional()])
-    pago_trabajo_a = StringField('Total a Pagar:', validators=[DataRequired(), Length(max=15)])
+    pago_trabajo_a = StringField('Total a Pagar:', validators=[Length(max=15)],default='0')
     
 
 class form_update_trabajo(FlaskForm):

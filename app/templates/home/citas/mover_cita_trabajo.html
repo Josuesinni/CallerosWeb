@@ -1,0 +1,20 @@
+<div class="modal fade" id="updateCitaToTrabajo" tabindex="-1" aria-labelledby="updateCitaToTrabajoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="updateCitaToTrabajoLabel">Confirmar Decisión</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">¿Desea cambiar la cita a trabajo? (esto eliminará la cita)</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form data-action="/api/cita/delete2" method="post" id="agregar_a_trabajos">
+                    <input type="hidden" name="id_cita_add_trabajo" id="id_cita_add_trabajo">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

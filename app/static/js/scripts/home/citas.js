@@ -86,5 +86,59 @@ $(document).on("click", ".event-cita", function () {
         $(".modal-body #telefono-ic").val(data[2]);
         $(".modal-body #descripcion_cita_u").val(data[3]);
         $(".modal-body #estatus_cita_u").val(data[5]);
+        $("#id_cita_add_trabajo").val(idCita);
+        console.log($("#id_cita_add_trabajo").val())
     })
 });
+
+
+$(document).ready(function () {
+    $(document).on("submit", "#agregar_a_trabajos", function (event) {
+        event.preventDefault();  // Evita la recarga de la página
+        var url_form = $(this).data('action');
+        var formData = $(this).serialize();
+        var fecha=$("#fecha_cita_u").val();
+        var nombre=$("#nombre-cliente-ic").val();
+        var telefono=$("#telefono-ic").val();
+        var descripcion=$("#descripcion_cita_u").val();
+        $.ajax({
+            type: 'POST',
+            url: url_form,
+            data: formData,
+            success: function (response) {
+                moveInformacionCita(fecha,nombre,telefono,descripcion);                    
+                if (response.status) {
+                    console.log("Se borro")
+                } else {
+                    console.log("Algo falló");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error en la solicitud AJAX:", error);
+            }
+        });
+    });
+});
+
+function moveInformacionCita(fecha,nombre,telefono,descripcion){
+    $('#updateCitaToTrabajo').modal('hide');
+    $('#infoCita').modal('hide');
+    $("#fecha_trabajo_a").val(fecha)
+    //$("#nombre_cliente_trabajo_a").val(nombre)
+    selectOptionByText("#nombre_cliente_trabajo_a",nombre)
+    $("#telefono_cliente_trabajo_a").val(telefono)
+    $("#descripcion_trabajo_a").val(descripcion)
+    $('#addTrabajo').modal('show');
+}
+
+// Function to select option by text
+function selectOptionByText(selectId, text) {
+    var selectElement = $(selectId);
+    var option = selectElement.find('option').filter(function() {
+        return $(this).text() === text;
+    });
+
+    if (option.length) {
+        selectElement.val(option.val()).trigger('change');
+    }
+}
