@@ -2,14 +2,17 @@
 
     <div class="day-selector p-2">
         <div class="d-flex fs-5 justify-center">
-            <button class="end-0" @click="--dia;setFechaSeleccionada(dia)"> <i class="bi bi-caret-left date-left"></i>
-            </button>
-            <!--<p x-text="getFecha()"></p>-->
+            <div>
+                <button @click.prevent="--dia;$nextTick(() => setFechaSeleccionada(dia))"> <i class="bi bi-caret-left date-left"></i>
+                </button>
+            </div>
             <input type="date" name="" id="fechaSeleccionada" x-on:change.debounce="setFechaCalendario($event)"
                 style="text-align: center; opacity: 0; width: 0; height: 0;">
             <span id="fecha-span"></span>
-            <button class="end-0" @click="++dia;setFechaSeleccionada(dia)"> <i class="bi bi-caret-right date-right"></i>
-            </button>
+            <div>
+                <button @click.prevent="++dia;$nextTick(() => setFechaSeleccionada(dia))"> <i class="bi bi-caret-right date-right"></i>
+                </button>
+            </div>
         </div>
     </div>
     <div class="title p-2">
